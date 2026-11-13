@@ -1,0 +1,1408 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>마음 독서 - 오늘의 마음에 맞는 책</title>
+  <meta name="description" content="오늘의 감정과 마음에 딱 맞는 맞춤 도서 3권을 Gemini AI와 Claude AI로 섬세하게 골라 드리는 도서 큐레이션 서비스" />
+  <meta property="og:title" content="마음 독서 - 오늘의 마음에 맞는 책" />
+  <meta property="og:description" content="오늘의 감정과 마음에 딱 맞는 맞춤 도서 3권을 Gemini AI와 Claude AI로 섬세하게 골라 드리는 도서 큐레이션 서비스" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --surface: #ffffff;
+      --ink: #1f1d1a;
+      --ink-soft: #5f5a52;
+      --ink-faint: #8f887e;
+      --line: #e7e1d6;
+      --accent: #4f5fd6;
+      --accent-hover: #4352be;
+      --accent-soft: #eceffc;
+      --warm: #f3e9dc;
+      --warm-ink: #8a6a3f;
+      --danger: #b3412f;
+      --ok: #059669;
+      --amber-bg: #fffbeb;
+      --amber-line: #fcd34d;
+      --amber-ink: #78350f;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #161412;
+        --surface: #221f1b;
+        --ink: #f3efe8;
+        --ink-soft: #c9c2b6;
+        --ink-faint: #958e82;
+        --line: #3a342c;
+        --accent: #7b8be8;
+        --accent-hover: #939fef;
+        --accent-soft: #252a45;
+        --warm: #332a20;
+        --warm-ink: #e0c49a;
+        --danger: #f08b78;
+        --ok: #34d399;
+        --amber-bg: #2e2510;
+        --amber-line: #7c5e1c;
+        --amber-ink: #fcd98a;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #161412;
+      --surface: #221f1b;
+      --ink: #f3efe8;
+      --ink-soft: #c9c2b6;
+      --ink-faint: #958e82;
+      --line: #3a342c;
+      --accent: #7b8be8;
+      --accent-hover: #939fef;
+      --accent-soft: #252a45;
+      --warm: #332a20;
+      --warm-ink: #e0c49a;
+      --danger: #f08b78;
+      --ok: #34d399;
+      --amber-bg: #2e2510;
+      --amber-line: #7c5e1c;
+      --amber-ink: #fcd98a;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+      line-height: 1.6;
+      word-break: keep-all;
+      -webkit-font-smoothing: antialiased;
+    }
+    button, input, textarea, select { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: 0.4; }
+    textarea, input, select { color: var(--ink); }
+
+    .app {
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      padding: 28px 20px 40px;
+      display: flex;
+      flex-direction: column;
+    }
+    .fade { animation: fadeIn 0.4s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+    /* Header */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 24px; padding-bottom: 8px;
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+    }
+    .brand { display: flex; align-items: center; gap: 8px; }
+    .logo {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--accent); color: #fff;
+      display: grid; place-items: center; font-size: 16px;
+      box-shadow: 0 2px 6px rgba(79, 95, 214, 0.25);
+    }
+    .brand-name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; display: block; line-height: 1.2; }
+    .brand-sub { font-size: 11px; color: var(--ink-faint); }
+    .tools { display: flex; gap: 8px; align-items: center; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 600;
+      padding: 6px 12px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+      transition: all 0.15s ease;
+    }
+    .pill:hover { border-color: var(--accent); }
+    .pill.admin { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--accent); }
+    .pill.warn { background: var(--amber-bg); border-color: var(--amber-line); color: var(--amber-ink); font-weight: 700; animation: pulse 2s ease-in-out infinite; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; display: inline-block; }
+    @keyframes pulse { 50% { opacity: 0.7; } }
+
+    .persona {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      margin-bottom: 16px; padding: 8px 14px; border-radius: 16px;
+      background: color-mix(in srgb, var(--surface) 80%, transparent);
+      border: 1px solid var(--line); font-size: 12px;
+    }
+    .persona .left { display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--ink-soft); }
+    .persona strong { color: var(--ink); }
+    .persona .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .persona .count { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ink-faint); flex-shrink: 0; }
+    .link-btn { background: none; border: 0; color: var(--accent); font-size: 11px; font-weight: 700; padding: 0; white-space: nowrap; }
+    .link-btn:hover { text-decoration: underline; }
+    .link-btn.muted { color: var(--ink-faint); font-weight: 500; }
+
+    .alert {
+      margin-bottom: 20px; padding: 14px; border-radius: 16px;
+      background: var(--amber-bg); border: 1px solid var(--amber-line);
+      color: var(--amber-ink); font-size: 12px; display: flex; gap: 10px;
+    }
+    .alert .title { font-weight: 800; margin: 0 0 2px; }
+    .alert p { margin: 0; }
+    .alert .actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+    .btn-sm {
+      padding: 4px 12px; border-radius: 8px; font-weight: 600; font-size: 12px;
+      border: 1px solid var(--amber-line); background: var(--surface); color: var(--amber-ink);
+    }
+    .btn-sm.solid { background: #b45309; color: #fff; border-color: #b45309; }
+
+    /* Settings */
+    .panel {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+      padding: 20px; margin-bottom: 24px; box-shadow: 0 10px 30px -12px rgba(60, 40, 20, 0.2);
+    }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .panel-title { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 15px; font-weight: 800; }
+    .icon-btn { background: none; border: 0; color: var(--ink-faint); padding: 4px; border-radius: 999px; font-size: 16px; line-height: 1; }
+    .icon-btn:hover { color: var(--ink); }
+    .muted-text { font-size: 12px; color: var(--ink-soft); line-height: 1.6; margin: 0 0 16px; }
+    .tabs {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+      padding: 4px; background: var(--bg); border-radius: 12px; margin-bottom: 16px;
+    }
+    .tab {
+      padding: 8px; border: 0; border-radius: 9px; background: none;
+      font-size: 12px; font-weight: 600; color: var(--ink-faint);
+    }
+    .tab:hover { color: var(--ink); }
+    .tab.on { background: var(--surface); color: var(--accent); font-weight: 800; box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+    .key-row { display: flex; gap: 8px; }
+    .field {
+      flex: 1; min-width: 0; font-family: ui-monospace, monospace; font-size: 12px;
+      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--bg);
+    }
+    .field:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); background: var(--surface); }
+    .btn-ghost {
+      padding: 6px 12px; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--bg); font-size: 12px; font-weight: 600; color: var(--ink);
+      white-space: nowrap;
+    }
+    .btn-ghost:hover { background: var(--line); }
+    .btn-del { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: none; color: var(--ink-faint); font-size: 12px; }
+    .btn-del:hover { color: var(--danger); }
+    .note {
+      padding: 12px; border-radius: 12px; font-size: 12px; line-height: 1.6; margin-top: 12px;
+      border: 1px solid; display: flex; gap: 8px;
+    }
+    .note.ok { background: color-mix(in srgb, var(--ok) 10%, var(--surface)); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+    .note.bad { background: color-mix(in srgb, var(--danger) 10%, var(--surface)); border-color: color-mix(in srgb, var(--danger) 40%, transparent); }
+    .note.tip { background: var(--amber-bg); border-color: var(--amber-line); color: var(--amber-ink); font-size: 11.5px; display: block; }
+    .note.tip p { margin: 2px 0; }
+    .note .t { font-weight: 800; margin: 0 0 2px; }
+    .sample-box { padding: 16px; border-radius: 12px; background: var(--accent-soft); font-size: 12px; color: var(--ink-soft); }
+    .sample-box h4 { margin: 0 0 6px; color: var(--accent); font-size: 14px; }
+    .full-btn {
+      width: 100%; margin-top: 10px; padding: 10px; border: 0; border-radius: 10px;
+      background: var(--accent); color: #fff; font-weight: 700;
+    }
+    .panel-foot {
+      margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .toast { font-size: 12px; color: var(--ok); font-weight: 600; }
+    .btn-row { display: flex; gap: 8px; }
+    .btn-cancel { padding: 6px 12px; border: 0; border-radius: 12px; background: none; font-size: 12px; color: var(--ink-soft); }
+    .btn-cancel:hover { background: var(--bg); }
+    .btn-apply { padding: 6px 16px; border: 0; border-radius: 12px; background: var(--accent); color: #fff; font-size: 12px; font-weight: 700; }
+    .btn-apply:hover { background: var(--accent-hover); }
+
+    /* Input view */
+    h1.headline { font-size: 27px; font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; margin: 0 0 8px; }
+    .lead { font-size: 15px; color: var(--ink-soft); margin: 0 0 24px; }
+    .composer {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+      padding: 16px; box-shadow: 0 8px 24px -16px rgba(60, 40, 20, 0.18);
+      transition: all 0.15s ease;
+    }
+    .composer:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+    .composer textarea {
+      width: 100%; border: 0; outline: none; resize: none; background: transparent;
+      font-size: 16px; line-height: 1.6; min-height: 120px;
+    }
+    .composer textarea::placeholder { color: var(--ink-faint); }
+    .composer-foot {
+      display: flex; justify-content: space-between; font-size: 12px; color: var(--ink-faint);
+      padding-top: 8px; margin-top: 8px; border-top: 1px solid var(--line);
+    }
+    .composer-foot .warn { color: #b45309; font-weight: 700; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+    .chip {
+      font-size: 13px; padding: 8px 14px; border-radius: 999px;
+      border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft);
+      text-align: left; transition: all 0.15s ease;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .cta-wrap { margin-top: auto; padding-top: 16px; }
+    .cta {
+      width: 100%; padding: 16px 20px; border: 0; border-radius: 16px;
+      background: var(--accent); color: #fff; font-weight: 700; font-size: 16px;
+      box-shadow: 0 4px 14px rgba(79, 95, 214, 0.3);
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .cta:hover:not(:disabled) { background: var(--accent-hover); }
+    .cta:active:not(:disabled) { transform: scale(0.99); }
+    .cta:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    .privacy { font-size: 12px; color: var(--ink-faint); text-align: center; margin: 12px 0 0; }
+
+    /* Loading */
+    .loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 48px 0; }
+    .orb {
+      width: 96px; height: 96px; border-radius: 50%; margin-bottom: 28px;
+      background: radial-gradient(circle, #fff 0%, #c9d0f7 45%, var(--accent) 100%);
+      display: grid; place-items: center; font-size: 36px;
+      animation: breathe 2s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%, 100% { transform: scale(0.94); box-shadow: 0 8px 30px -8px rgba(79, 95, 214, 0.4); }
+      50% { transform: scale(1.06); box-shadow: 0 16px 45px -6px rgba(79, 95, 214, 0.65); }
+    }
+    .loading h2 { font-size: 21px; font-weight: 800; margin: 0 0 20px; letter-spacing: -0.02em; }
+    .steps { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+    .steps li { display: flex; align-items: center; gap: 8px; margin: 12px 0; transition: all 0.3s ease; color: color-mix(in srgb, var(--ink-faint) 60%, transparent); }
+    .steps li.cur { color: var(--ink); font-weight: 700; transform: scale(1.05); }
+    .steps li.done { color: var(--accent); font-weight: 500; }
+    .steps .d { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+    .steps li.done .d { background: var(--accent); }
+    .steps li.cur .d { background: var(--accent); animation: ping 1s cubic-bezier(0,0,0.2,1) infinite; }
+    @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
+    .loading .hint { font-size: 12px; color: var(--ink-faint); margin-top: 32px; }
+
+    /* Result */
+    .mood {
+      background: var(--warm); border: 1px solid color-mix(in srgb, var(--warm-ink) 25%, transparent);
+      border-radius: 22px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .mood-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .mood-label { font-size: 12px; font-weight: 700; color: var(--warm-ink); letter-spacing: 0.04em; text-transform: uppercase; }
+    .badge {
+      font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 999px;
+      background: color-mix(in srgb, var(--surface) 70%, transparent); color: var(--warm-ink);
+      border: 1px solid color-mix(in srgb, var(--warm-ink) 25%, transparent);
+    }
+    .mood h3 { font-size: 19px; font-weight: 800; line-height: 1.4; margin: 0; letter-spacing: -0.02em; }
+    .mood .sure { font-size: 12px; color: var(--warm-ink); margin: 6px 0 0; }
+    .quote {
+      margin: 12px 0 0; font-size: 14px; color: var(--ink-soft); font-style: italic;
+      border-left: 3px solid color-mix(in srgb, var(--warm-ink) 50%, transparent); padding: 2px 0 2px 12px;
+    }
+    .fb { display: flex; align-items: center; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid color-mix(in srgb, var(--warm-ink) 20%, transparent); }
+    .fb .lab { font-size: 12px; color: var(--warm-ink); margin-right: 4px; }
+    .fb button {
+      font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 0;
+      background: color-mix(in srgb, var(--surface) 80%, transparent); color: var(--ink-soft);
+    }
+    .fb button:hover { background: var(--surface); }
+    .fb button.on { background: var(--ink); color: var(--bg); }
+
+    .list-head { display: flex; justify-content: space-between; align-items: baseline; margin: 28px 0 12px; }
+    .list-head h2 { font-size: 15px; font-weight: 800; color: var(--ink-soft); margin: 0; }
+    .list-head span { font-size: 12px; color: var(--ink-faint); }
+    .books { display: flex; flex-direction: column; gap: 14px; }
+    .book {
+      display: flex; gap: 16px; background: var(--surface); border: 1px solid var(--line);
+      border-radius: 22px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+      transition: border-color 0.15s ease;
+    }
+    .book:hover { border-color: color-mix(in srgb, var(--accent) 60%, transparent); }
+    .cover {
+      width: 64px; height: 96px; border-radius: 12px; flex-shrink: 0; color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+      padding: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .cover .b { font-size: 10px; opacity: 0.8; font-family: ui-monospace, monospace; }
+    .cover .t { font-size: 24px; font-weight: 900; }
+    .cover .a { font-size: 9px; opacity: 0.75; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .g0 { background: linear-gradient(135deg, #6366f1, #2563eb); }
+    .g1 { background: linear-gradient(135deg, #d97706, #c2410c); }
+    .g2 { background: linear-gradient(135deg, #059669, #0f766e); }
+    .book-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: space-between; }
+    .tags { display: flex; gap: 6px; align-items: center; margin-bottom: 4px; flex-wrap: wrap; }
+    .time {
+      font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-soft);
+      padding: 2px 10px; border-radius: 999px;
+    }
+    .genre { font-size: 10px; color: var(--ink-soft); background: var(--bg); padding: 2px 8px; border-radius: 999px; }
+    .book h4 { font-size: 17px; font-weight: 800; margin: 0; line-height: 1.35; letter-spacing: -0.01em; }
+    .book .au { font-size: 13px; color: var(--ink-faint); margin: 2px 0 8px; }
+    .reason {
+      font-size: 13.5px; color: var(--ink-soft); line-height: 1.6; margin: 0;
+      background: var(--bg); padding: 10px; border-radius: 12px; border: 1px solid var(--line);
+    }
+    .result-actions { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .btn-main {
+      width: 100%; padding: 14px 20px; border: 0; border-radius: 16px;
+      background: var(--accent); color: #fff; font-weight: 700; font-size: 15px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-main:hover { background: var(--accent-hover); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn-sec {
+      padding: 12px 16px; border-radius: 14px; border: 1px solid var(--line);
+      background: var(--surface); color: var(--ink-soft); font-size: 12px; font-weight: 600;
+    }
+    .btn-sec:hover { border-color: var(--accent); color: var(--accent); }
+    .disclaimer { font-size: 11px; color: var(--ink-faint); text-align: center; margin: 8px 0 0; }
+
+    /* Error */
+    .error { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 0; }
+    .err-icon {
+      width: 64px; height: 64px; border-radius: 16px; margin-bottom: 16px;
+      background: color-mix(in srgb, var(--danger) 12%, var(--surface)); color: var(--danger);
+      display: grid; place-items: center; font-size: 30px;
+    }
+    .error h3 { font-size: 19px; font-weight: 800; margin: 0 0 8px; }
+    .error .msg { font-size: 14px; color: var(--ink-soft); max-width: 320px; margin: 0 0 24px; line-height: 1.6; }
+    .stack { width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 8px; }
+    .stack .btn-main { padding: 14px; font-size: 14px; border-radius: 14px; }
+    .stack .btn-alt { padding: 12px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); color: var(--ink-soft); font-weight: 600; font-size: 12px; }
+    .stack .btn-text { padding: 10px; border: 0; background: none; color: var(--ink-faint); font-size: 12px; }
+
+    /* Modal */
+    .modal-bg {
+      position: fixed; inset: 0; z-index: 50; background: rgba(20, 16, 12, 0.5);
+      display: flex; align-items: center; justify-content: center; padding: 16px;
+    }
+    .modal {
+      width: 100%; max-width: 440px; max-height: 90vh; overflow: auto;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 22px;
+      padding: 24px; box-shadow: 0 24px 60px -20px rgba(0,0,0,0.4);
+    }
+    .modal.wide { max-width: 760px; }
+    .modal h3 { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+    .modal .sub { font-size: 12px; color: var(--ink-soft); margin: 0 0 16px; }
+    .modal label { display: block; font-size: 12px; font-weight: 700; margin: 14px 0 6px; color: var(--ink-soft); }
+    .modal input[type="text"], .modal input[type="number"], .modal input[type="password"],
+    .modal textarea, .modal select {
+      width: 100%; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--bg); font-size: 13px;
+    }
+    .modal textarea { min-height: 160px; font-family: ui-monospace, monospace; font-size: 12px; line-height: 1.5; resize: vertical; }
+    .modal input:focus, .modal textarea:focus, .modal select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .presets { display: grid; gap: 6px; }
+    .preset {
+      text-align: left; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line);
+      background: var(--bg); font-size: 12px;
+    }
+    .preset.on { border-color: var(--accent); background: var(--accent-soft); }
+    .preset b { display: block; font-size: 13px; margin-bottom: 2px; }
+    .preset span { color: var(--ink-soft); }
+    .catalog { max-height: 220px; overflow: auto; border: 1px solid var(--line); border-radius: 12px; }
+    .catalog label {
+      display: flex; align-items: center; gap: 10px; margin: 0; padding: 8px 12px;
+      border-bottom: 1px solid var(--line); font-weight: 500; font-size: 13px; color: var(--ink);
+    }
+    .catalog label:last-child { border-bottom: 0; }
+    .catalog small { color: var(--ink-faint); display: block; }
+    .cat-off { opacity: 0.45; }
+    .modal .row-end { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+    .modal .danger-link { background: none; border: 0; color: var(--danger); font-size: 12px; font-weight: 600; margin-right: auto; }
+    .modal .error-text { color: var(--danger); font-size: 12px; margin: 8px 0 0; min-height: 1em; }
+    .playground { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 8px; }
+    .playground pre { white-space: pre-wrap; font-size: 12px; margin: 10px 0 0; font-family: ui-monospace, monospace; color: var(--ink-soft); }
+    .pill-btn { padding: 8px 14px; border-radius: 10px; border: 0; background: var(--accent); color: #fff; font-weight: 700; font-size: 13px; }
+    .pill-btn.ghost { background: var(--surface); color: var(--accent); border: 1px solid var(--line); }
+    .section-title { font-size: 13px; font-weight: 800; margin: 20px 0 4px; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    :focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 60%, transparent); outline-offset: 2px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    @media (max-width: 380px) {
+      .app { padding: 20px 16px 32px; }
+      .book { gap: 12px; }
+      .row2 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">📖</div>
+        <div>
+          <span class="brand-name">마음 독서</span>
+          <span class="brand-sub">책으로 채우는 오늘의 쉼표</span>
+        </div>
+      </div>
+      <div class="tools">
+        <button id="adminBtn" class="pill admin" title="관리자 AI 프롬프트 & 모델 세밀 튜닝 (PIN 보호)">
+          🔒 <span class="hide-sm">AI 튜닝</span> 관리자
+        </button>
+        <button id="settingsBtn" class="pill" title="API 설정">
+          ⚙ <span>API 설정</span> <span id="settingsDot" class="dot" hidden></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Persona bar -->
+    <div class="persona">
+      <div class="left truncate">
+        ✨ <span class="truncate">AI 페르소나: <strong id="personaName">따뜻한 공감형 (기본)</strong></span>
+        <span class="count" id="bookCount">(16권)</span>
+      </div>
+      <button id="personaBtn" class="link-btn">프롬프트 조정 🔒</button>
+    </div>
+
+    <!-- Missing-key banner -->
+    <div id="keyBanner" class="alert" hidden>
+      <div style="flex:1">
+        <p class="title">Claude 또는 Gemini API 키를 입력해 주세요</p>
+        <p>제미나이 키가 비어 있는 경우, 사용자님의 <strong>Claude(Anthropic) API 키</strong>를 입력하여 바로 추천을 이용하실 수 있습니다.</p>
+        <div class="actions">
+          <button id="bannerKeyBtn" class="btn-sm solid">지금 키 입력하기</button>
+          <button id="bannerSampleBtn" class="btn-sm">체험 샘플 모드</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings panel -->
+    <section id="settings" class="panel fade" hidden aria-label="API 연결 설정">
+      <div class="panel-head">
+        <h2 class="panel-title">🔑 API 연결 설정</h2>
+        <button id="settingsClose" class="icon-btn" aria-label="닫기">✕</button>
+      </div>
+      <p class="muted-text">원하시는 AI 제공자를 선택하고 API 키를 입력해 주세요. 입력하신 키는 브라우저 로컬 저장소에만 보관됩니다.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" data-provider="claude" role="tab">Anthropic Claude</button>
+        <button class="tab" data-provider="gemini" role="tab">Google Gemini</button>
+        <button class="tab" data-provider="sample" role="tab">체험 샘플 모드</button>
+      </div>
+
+      <div id="panelKey">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px">
+          <span id="keyLabel" style="font-weight:600"></span>
+          <a id="keyLink" href="#" target="_blank" rel="noreferrer" style="color:var(--accent);text-decoration:none"></a>
+        </div>
+        <div class="key-row">
+          <input id="keyInput" class="field" type="password" autocomplete="off" spellcheck="false" />
+          <button id="testBtn" class="btn-ghost">연결 테스트</button>
+          <button id="clearKeyBtn" class="btn-del">삭제</button>
+        </div>
+        <div id="testResult" hidden></div>
+        <div id="claudeTips" class="note tip" hidden>
+          <p class="t">⚠ 키가 안 될 때 꼭 확인해 주세요:</p>
+          <p>1. <strong>크레딧 잔액 부족</strong>: Anthropic(Claude) 콘솔은 결제 수단 등록 후 크레딧(최소 $5)이 충전되어 있어야 API가 응답합니다. (Claude.ai 웹 유료 구독과 개발자 API 크레딧은 별개입니다)</p>
+          <p>2. <strong>키 복사 공백</strong>: 키 앞뒤에 띄어쓰기(공백)가 포함되지 않았는지 확인해 주세요.</p>
+          <p>3. <strong>무료 체험을 원하시면</strong>: 상단 <strong>[체험 샘플 모드]</strong>를 선택하시면 키 없이도 즉시 추천을 체험하실 수 있습니다.</p>
+        </div>
+        <div id="geminiTips" class="note tip" hidden>
+          <p class="t">안내:</p>
+          <p>Google AI Studio(aistudio.google.com/app/apikey) 또는 Cloud Console에서 발급받으신 Gemini API 키를 입력하시면 형식 제한 없이 즉시 연동됩니다.</p>
+        </div>
+      </div>
+
+      <div id="panelSample" class="sample-box" hidden>
+        <h4>✨ API 키 없는 무료 체험 샘플 모드</h4>
+        <p style="margin:0">API 키를 입력하지 않아도, 16권의 엄선된 한국·세계 문학 카탈로그(어린 왕자, 월든, 달러구트 꿈 백화점, 불안, 미움받을 용기 등)와 감정 키워드 매칭 엔진을 통해 맞춤 도서 3권을 바로 큐레이션해 드립니다.</p>
+        <button id="sampleStartBtn" class="full-btn">체험 샘플 모드로 시작하기</button>
+      </div>
+
+      <div class="panel-foot">
+        <span id="savedToast" class="toast" hidden>✓ 설정이 적용되었습니다!</span>
+        <span></span>
+        <div class="btn-row">
+          <button id="settingsCancel" class="btn-cancel">닫기</button>
+          <button id="applyBtn" class="btn-apply">적용하기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. Input view -->
+    <section id="viewInput" class="fade" style="flex:1;display:flex;flex-direction:column">
+      <h1 class="headline">지금 마음이<br />어떤가요?</h1>
+      <p class="lead">편하게 적어 주시면 지금 마음에 맞는 책 3권을 골라 드릴게요.</p>
+
+      <div class="composer">
+        <textarea id="moodInput" maxlength="300" rows="5" placeholder="예: 발표를 앞두고 머릿속이 복잡하고 불안해요..."></textarea>
+        <div class="composer-foot">
+          <span>최대 300자</span>
+          <span id="charCount">0 / 300</span>
+        </div>
+      </div>
+
+      <div id="chips" class="chips"></div>
+
+      <div class="cta-wrap">
+        <button id="recommendBtn" class="cta" disabled>✨ <span>책 추천받기</span></button>
+        <p class="privacy">입력하신 내용은 오직 마음에 맞는 책을 큐레이션하는 데만 쓰여요.</p>
+      </div>
+    </section>
+
+    <!-- 2. Loading view -->
+    <section id="viewLoading" class="loading fade" hidden>
+      <div class="orb" aria-hidden="true">📖</div>
+      <h2>마음을 읽고 있어요</h2>
+      <ul class="steps" id="steps"></ul>
+      <p class="hint" id="loadingHint"></p>
+    </section>
+
+    <!-- 3. Result view -->
+    <section id="viewResult" class="fade" hidden>
+      <div class="mood">
+        <div class="mood-top">
+          <span class="mood-label">지금 마음은</span>
+          <span id="providerBadge" class="badge"></span>
+        </div>
+        <h3 id="moodState"></h3>
+        <p id="lowConf" class="sure" hidden>확실하지 않아요. 조금 다르다면 아래에서 알려 주세요.</p>
+        <blockquote id="quote" class="quote"></blockquote>
+        <div class="fb">
+          <span class="lab">공감도:</span>
+          <button id="fbYes" data-fb="yes">딱 맞아요 ✨</button>
+          <button id="fbNo" data-fb="no">조금 달라요 🤔</button>
+        </div>
+      </div>
+
+      <div class="list-head">
+        <h2>이렇게 읽는 시간을 추천해요</h2>
+        <span>엄선 도서 3권</span>
+      </div>
+      <div id="books" class="books"></div>
+
+      <div class="result-actions">
+        <button id="retryBtn" class="btn-main">↻ 다른 책으로 다시 추천받기</button>
+        <div class="grid2">
+          <button id="copyBtn" class="btn-sec">📋 결과 복사하기</button>
+          <button id="rewriteBtn" class="btn-sec">✎ 마음 다시 적기</button>
+        </div>
+        <p class="disclaimer">AI가 고른 추천이에요. 책 정보는 서점이나 출판사에서 한 번 더 확인해 주세요.</p>
+      </div>
+    </section>
+
+    <!-- 4. Error view -->
+    <section id="viewError" class="error fade" hidden>
+      <div class="err-icon" aria-hidden="true">⚠</div>
+      <h3>마음을 읽는 데 문제가 생겼어요</h3>
+      <p class="msg" id="errorMsg"></p>
+      <div class="stack">
+        <button id="errKeyBtn" class="btn-main">🔑 API 키 입력 / 변경하기</button>
+        <button id="errSampleBtn" class="btn-alt">체험 샘플 모드로 바로 보기</button>
+        <button id="errBackBtn" class="btn-text">입력 내용 수정하기</button>
+      </div>
+    </section>
+  </div>
+
+  <!-- PIN modal -->
+  <div id="pinModal" class="modal-bg" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pinTitle">
+      <h3 id="pinTitle">🔒 관리자 인증</h3>
+      <p class="sub">AI 프롬프트와 모델 설정을 조정하려면 관리자 PIN을 입력해 주세요.</p>
+      <label for="pinInput">관리자 PIN (4자리)</label>
+      <input id="pinInput" type="password" inputmode="numeric" maxlength="4" placeholder="····" autocomplete="off" />
+      <p id="pinError" class="error-text"></p>
+      <div class="row-end">
+        <button id="pinCancel" class="btn-cancel">취소</button>
+        <button id="pinSubmit" class="btn-apply">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin studio modal -->
+  <div id="studio" class="modal-bg" hidden>
+    <div class="modal wide" role="dialog" aria-modal="true" aria-labelledby="studioTitle">
+      <h3 id="studioTitle">AI 프롬프트 & 모델 스튜디오</h3>
+      <p class="sub">변경 사항은 이 브라우저에 저장되어 추천 결과에 바로 반영됩니다.</p>
+
+      <div class="section-title">추천 AI 페르소나 프리셋</div>
+      <div id="presetList" class="presets"></div>
+
+      <div class="section-title">시스템 인스트럭션 (System Prompt)</div>
+      <textarea id="sysPrompt" placeholder="시스템 프롬프트 내용을 입력하세요..."></textarea>
+
+      <div class="row2">
+        <div>
+          <label for="personaTone">페르소나 명칭 & 톤앤매너</label>
+          <input id="personaTone" type="text" placeholder="예: 다정하고 따뜻한 공감 사서" />
+        </div>
+        <div>
+          <label for="timeSlots">시간대 (쉼표로 구분)</label>
+          <input id="timeSlots" type="text" placeholder="지금 5분, 오늘 밤, 이번 주말" />
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="recCount">추천 권수 (1~5)</label>
+          <input id="recCount" type="number" min="1" max="5" />
+        </div>
+        <div>
+          <label for="reasonSent">추천 이유 최대 문장 수 (1~5)</label>
+          <input id="reasonSent" type="number" min="1" max="5" />
+        </div>
+      </div>
+      <div class="row2">
+        <div>
+          <label for="thinking">추론 강도 (Gemini 3.x)</label>
+          <select id="thinking"><option>LOW</option><option>MEDIUM</option><option>HIGH</option></select>
+        </div>
+        <div>
+          <label for="geminiModel">Gemini 모델</label>
+          <input id="geminiModel" type="text" />
+        </div>
+      </div>
+      <label for="claudeModel">Claude 모델</label>
+      <input id="claudeModel" type="text" />
+
+      <div class="section-title">추천 도서 카탈로그 관리</div>
+      <div id="catalog" class="catalog"></div>
+      <div class="row2" style="margin-top:8px">
+        <input id="newTitle" type="text" placeholder="새 도서 제목 (예: 인간실격)" />
+        <input id="newAuthor" type="text" placeholder="저자 (예: 다자이 오사무)" />
+      </div>
+      <input id="newGenre" type="text" placeholder="장르 (예: 고전 소설, 힐링 에세이)" style="margin-top:8px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg)" />
+      <input id="newDesc" type="text" placeholder="AI가 어떤 감정에 처방하면 좋을지 핵심 테마" style="margin-top:8px;width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg)" />
+      <div style="margin-top:8px"><button id="addBookBtn" class="pill-btn ghost">+ 도서 추가</button></div>
+
+      <div class="section-title">프롬프트 즉시 테스트 (Playground)</div>
+      <div class="playground">
+        <input id="ptInput" type="text" placeholder="테스트할 마음 상태나 문장을 입력하세요..." style="width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface)" />
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button id="ptRun" class="pill-btn">샘플 매칭으로 미리보기</button>
+        </div>
+        <pre id="ptOut"></pre>
+      </div>
+
+      <div class="section-title">최종 조합된 시스템 프롬프트 (Compiled Preview)</div>
+      <pre id="compiled" class="playground" style="white-space:pre-wrap;font-size:11px;max-height:200px;overflow:auto;font-family:ui-monospace,monospace"></pre>
+
+      <div class="section-title">관리자 PIN 변경</div>
+      <div class="row2">
+        <input id="curPin" type="password" inputmode="numeric" maxlength="4" placeholder="현재 PIN" />
+        <input id="newPin" type="password" inputmode="numeric" maxlength="4" placeholder="새로운 4자리 PIN" />
+      </div>
+
+      <div class="row-end">
+        <button id="studioReset" class="danger-link">기본값으로 초기화</button>
+        <button id="studioClose" class="btn-cancel">닫기</button>
+        <button id="studioSave" class="btn-apply">저장 & 적용</button>
+      </div>
+      <p id="studioMsg" class="error-text" style="color:var(--ok)"></p>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    // ================= Constants (mirrors server.ts) =================
+    const INITIAL_CATALOG = [
+      { id: "b1", title: "어린 왕자", author: "생텍쥐페리", genre: "고전 문학", desc: "순수한 시선으로 삶의 본질을 되돌아보게 하는 이야기", enabled: true },
+      { id: "b2", title: "월든", author: "헨리 데이비드 소로", genre: "인문 에세이", desc: "복잡한 세상 속에서 단순하고 자립적인 삶의 고요", enabled: true },
+      { id: "b3", title: "달러구트 꿈 백화점", author: "이미예", genre: "힐링 판타지", desc: "잠든 시간 동안 꿈을 사며 위로받는 따뜻한 이야기", enabled: true },
+      { id: "b4", title: "아몬드", author: "손원평", genre: "성장 소설", desc: "감정을 느끼지 못하는 소년의 성장과 타인에 대한 공감", enabled: true },
+      { id: "b5", title: "오베라는 남자", author: "프레드릭 배크만", genre: "감동 소설", desc: "까칠한 노인의 삶에 찾아온 이웃들과의 따스한 연대", enabled: true },
+      { id: "b6", title: "불안", author: "알랭 드 보통", genre: "철학 에세이", desc: "우리가 왜 남의 시선과 성공 앞에서 불안해하는지에 대한 성찰", enabled: true },
+      { id: "b7", title: "미움받을 용기", author: "기시미 이치로, 고가 후미타케", genre: "심리학", desc: "아들러 심리학을 통해 타인의 인정 욕구에서 벗어나는 법", enabled: true },
+      { id: "b8", title: "화", author: "틱낫한", genre: "마음챙김", desc: "분노라는 에너지를 품어 안고 평화로 전환하는 법", enabled: true },
+      { id: "b9", title: "행복의 기원", author: "서은국", genre: "진화심리학", desc: "행복이란 거창한 목표가 아니라 좋아하는 사람과 맛있는 음식을 먹는 것", enabled: true },
+      { id: "b10", title: "여행의 이유", author: "김영하", genre: "산문집", desc: "떠남과 돌아옴 속에서 마주하는 온전한 나 자신", enabled: true },
+      { id: "b11", title: "연금술사", author: "파울로 코엘료", genre: "철학 소설", desc: "자신의 꿈과 보물을 찾아 떠나는 여정과 우주의 섭리", enabled: true },
+      { id: "b12", title: "비폭력 대화", author: "마셜 B. 로젠버그", genre: "대화법", desc: "상처 주지 않고 진심을 전하는 연결의 언어", enabled: true },
+      { id: "b13", title: "숨결이 바람이 될 때", author: "폴 칼라니티", genre: "자전적 에세이", desc: "죽음 앞에서도 삶의 의미와 숭고함을 잃지 않은 의사의 고백", enabled: true },
+      { id: "b14", title: "불편한 편의점", author: "김호연", genre: "힐링 소설", desc: "골목 모퉁이 편의점에서 오가는 평범한 사람들의 따뜻한 위로", enabled: true },
+      { id: "b15", title: "기분이 태도가 되지 않게", author: "레몬심리", genre: "자기계발", desc: "내 감정의 주인이 되어 상처받지 않고 흔들리지 않는 법", enabled: true },
+      { id: "b16", title: "고요할수록 밝아지는 것들", author: "혜민", genre: "에세이", desc: "분주한 일상을 멈추고 내면의 평화를 찾는 지혜", enabled: true }
+    ];
+
+    const PRESETS = [
+      { id: "warm", name: "다정하고 따뜻한 공감 사서 (기본)", tagline: "따스한 온도로 마음을 감싸안는 다정한 책방지기",
+        description: "사용자의 지친 마음에 깊이 공감하고, 입력된 단어를 부드럽게 감싸며 따뜻한 위로의 이유를 작성합니다.",
+        prompt: `당신은 사람들의 감정과 마음에 딱 맞는 책을 처방해주는 '마음 독서' AI 사서입니다.
+규칙:
+1. 거절하지 마세요. 사용자의 표현을 경청하고 가장 가까운 마음 상태를 한 문장(state)으로 정리하세요.
+2. evidence에는 사용자 입력에서 가져온 핵심 단어나 표현을 넣으세요.
+3. 아래 제공된 책 목록 중에서 서로 다른 {{recommendationCount}}권을 선택하세요. 목록에 없는 도서는 추천하지 마세요.
+4. 시간대는 순서대로 {{timeSlots}}을 배정하세요.
+5. 각 책의 reason(추천 이유)은 사용자 입력의 단어를 1개 이상 자연스럽게 인용하여 다정하고 따뜻한 어조로 {{reasonMaxSentences}}문장 이내로 작성하세요.
+6. 응답은 반드시 마크다운이나 코드 블록 없이 순수 JSON 객체 하나만 출력하세요.
+
+도서 목록:
+{{catalogList}}` },
+      { id: "insight", name: "마음의 심층을 읽는 전문 심리 큐레이터", tagline: "표면적 감정 너머의 본질적인 심리를 짚어주는 분석적 통찰",
+        description: "불안이나 피로 뒤에 숨은 심리적 기제와 무의식을 차분히 진단하고, 내면의 성장을 이끄는 책을 처방합니다.",
+        prompt: `당신은 인간 내면의 무의식과 심리적 역동을 섬세하게 읽어내는 전문 심리 큐레이터입니다.
+규칙:
+1. 사용자가 표현한 단어 뒤에 숨은 심리적 욕구(인정 욕구, 통제감 상실, 번아웃 등)를 날카롭되 정중하게 분석하여 한 문장(state)으로 요약하세요.
+2. evidence에는 분석의 근거가 된 사용자의 핵심 표현을 추출하세요.
+3. 제공된 도서 목록 중에서 사용자의 심리적 치유와 성장에 가장 유효한 책 {{recommendationCount}}권을 엄선하세요.
+4. 시간대는 순서대로 {{timeSlots}}을 배정하세요.
+5. 각 책의 reason은 감정의 원인을 성찰하고 관점을 전환할 수 있는 통찰력 있는 문장으로 {{reasonMaxSentences}}문장 이내로 작성하세요.
+6. 응답은 코드 블록 없이 순수 JSON으로만 출력하세요.
+
+도서 목록:
+{{catalogList}}` },
+      { id: "poetic", name: "한 편의 시처럼 위로하는 문학적 은유가", tagline: "삶의 계절과 마음의 결을 시적인 언어로 어루만지는 문학인",
+        description: "직접적인 조언보다는 아름다운 은유와 문학적 문체로 마음의 여백을 만들어 주는 서정적인 추천을 제공합니다.",
+        prompt: `당신은 고단한 삶의 행로에 한 줄기 고요한 쉼표를 건네는 문학가이자 사서입니다.
+규칙:
+1. 사용자의 마음을 마치 하나의 계절이나 풍경에 빗대어 깊은 여운을 남기는 시적인 한 문장(state)으로 묘사하세요.
+2. evidence에는 사용자 문장에서 가장 서정적인 울림을 주는 단어를 담으세요.
+3. 도서 목록에서 이 계절의 마음에 가만히 머물 수 있는 책 {{recommendationCount}}권을 고르세요.
+4. 시간대는 순서대로 {{timeSlots}}을 배정하세요.
+5. 각 책의 reason은 문학적인 비유와 아름다운 한국어 문장으로 마음에 온기를 불어넣도록 {{reasonMaxSentences}}문장 이내로 작성하세요.
+6. 응답은 반드시 순수 JSON으로만 반환하세요.
+
+도서 목록:
+{{catalogList}}` },
+      { id: "action", name: "작은 실천을 이끄는 라이프 코치", tagline: "복잡한 생각을 털어내고 지금 당장 페이지를 열게 하는 명쾌한 가이드",
+        description: "막연한 위로 대신 지금 당장 5분 동안 읽고 실천할 수 있는 현실적이고 명확한 행동 동기를 부여합니다.",
+        prompt: `당신은 생각의 과부하를 덜어주고 행동을 이끌어내는 명쾌한 라이프 독서 코치입니다.
+규칙:
+1. 현재 마음의 혼란과 정체 상태를 직관적이고 군더더기 없는 한 문장(state)으로 요약하세요.
+2. evidence에는 사용자가 직면한 구체적인 상황/단어를 정확히 추출하세요.
+3. 도서 목록에서 즉시 실천 가능한 해법이나 마인드셋을 주는 책 {{recommendationCount}}권을 선택하세요.
+4. 시간대는 순서대로 {{timeSlots}}을 배정하세요.
+5. 각 책의 reason은 '지금 이 책을 펼쳐서 무엇을 얻을 수 있는지' 명확한 효용과 행동 지침을 담아 {{reasonMaxSentences}}문장 이내로 작성하세요.
+6. 응답은 오직 순수 JSON으로만 출력하세요.
+
+도서 목록:
+{{catalogList}}` }
+    ];
+
+    const DEFAULT_CONFIG = {
+      systemPrompt: PRESETS[0].prompt,
+      personaTone: "따뜻한 공감형 (기본)",
+      recommendationCount: 3,
+      timeSlots: ["지금 5분", "오늘 밤", "이번 주말"],
+      reasonMaxSentences: 2,
+      includeEvidence: true,
+      thinkingLevel: "LOW",
+      geminiModel: "gemini-3.8-flash",
+      claudeModel: "claude-3-5-haiku-20241022",
+      catalog: JSON.parse(JSON.stringify(INITIAL_CATALOG))
+    };
+
+    const DEFAULT_CHIPS = [
+      "발표 앞두고 불안해요", "요즘 다 귀찮고 무기력해요", "가족과 크게 다퉜어요",
+      "오늘은 그냥 편안하고 싶어요", "새로운 시작이 조금 두려워요", "지친 나에게 작은 위로가 필요해요"
+    ];
+    const LOADING_STEPS = ["지금 마음의 결 살펴보기", "어울리는 책 3권 고르기", "따뜻한 이유 정리하기"];
+    const COVER_CLASSES = ["g0", "g1", "g2"];
+    const ADMIN_PIN_DEFAULT = "1234";
+
+    const KEYS = { claude: "mind_reading_claude_key", gemini: "mind_reading_gemini_key", provider: "mind_reading_provider", config: "mind_reading_admin_config", pin: "mind_reading_admin_pin" };
+    const KEY_META = {
+      claude: { label: "Claude API 키 (sk-ant-...)", link: "https://console.anthropic.com/settings/keys", linkText: "키 발급받기", placeholder: "sk-ant-api03-..." },
+      gemini: { label: "Gemini API 키", link: "https://aistudio.google.com/app/apikey", linkText: "무료 키 발급받기", placeholder: "Gemini API 키를 입력하세요" }
+    };
+
+    // ================= State =================
+    const $ = (id) => document.getElementById(id);
+    const store = {
+      get(k, fb = null) { try { const v = localStorage.getItem(k); return v === null ? fb : v; } catch { return fb; } },
+      set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+      del(k) { try { localStorage.removeItem(k); } catch {} }
+    };
+
+    let config = loadConfig();
+    let provider = store.get(KEYS.provider, "claude");
+    let keys = { claude: store.get(KEYS.claude, ""), gemini: store.get(KEYS.gemini, "") };
+    let moodText = "";
+    let lastText = "";
+    let result = null;
+    let stepTimer = null;
+    let adminUnlocked = false;
+    let draftCatalog = null;
+    let draftPresetId = null;
+
+    function loadConfig() {
+      try {
+        const saved = JSON.parse(store.get(KEYS.config, "null"));
+        if (saved && typeof saved === "object") {
+          return Object.assign(JSON.parse(JSON.stringify(DEFAULT_CONFIG)), saved);
+        }
+      } catch {}
+      return JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+    }
+    function saveConfig() { store.set(KEYS.config, JSON.stringify(config)); }
+
+    // ================= Prompt building (mirrors server.ts) =================
+    function enabledBooks() { return config.catalog.filter(b => b.enabled); }
+
+    function buildSystemPrompt(cfg = config) {
+      const books = cfg.catalog.filter(b => b.enabled);
+      const catalogList = books.map(b => `- ${b.title} (${b.author}) : ${b.desc}`).join("\n");
+      const slots = cfg.timeSlots.map(s => `'${s}'`).join(", ");
+      let prompt = cfg.systemPrompt
+        .replace(/\{\{catalogList\}\}/g, catalogList)
+        .replace(/\{\{recommendationCount\}\}/g, String(cfg.recommendationCount))
+        .replace(/\{\{timeSlots\}\}/g, slots)
+        .replace(/\{\{reasonMaxSentences\}\}/g, String(cfg.reasonMaxSentences));
+      if (!prompt.includes(catalogList) && books.length) prompt += `\n\n도서 목록:\n${catalogList}`;
+      if (!prompt.includes("JSON 형식 예시")) {
+        prompt += `\n\n응답 JSON 형식:\n{\n  "state": "마음 상태 요약 한 문장",\n  "confidence": 0.9,\n  "evidence": "입력 단어",\n  "books": [\n    ${cfg.timeSlots.map(slot => `{\n      "time": "${slot}",\n      "title": "도서 목록 내 책 제목",\n      "author": "저자명",\n      "reason": "추천 이유"\n    }`).join(",\n    ")}\n  ]\n}`;
+      }
+      return prompt;
+    }
+
+    // Offline recommendation (mirrors fallbackRecommendation in server.ts)
+    function fallbackRecommendation(text, cfg = config) {
+      const lower = text.toLowerCase();
+      const active = cfg.catalog.filter(b => b.enabled);
+      const count = Math.min(cfg.recommendationCount, active.length);
+      let selected = active.slice(0, count);
+      let state = "차분하게 마음을 가다듬고 쉬어가고 싶은 상태";
+      const pick = (titles) => { const f = active.filter(b => titles.includes(b.title)); if (f.length) selected = f.slice(0, count); };
+      if (["불안", "발표", "긴장", "걱정"].some(w => lower.includes(w))) {
+        state = "앞으로 다가올 일에 대한 긴장과 불안이 감도는 상태";
+        pick(["불안", "기분이 태도가 되지 않게", "달러구트 꿈 백화점", "아몬드"]);
+      } else if (["귀찮", "지쳐", "피곤", "번아웃", "무기력"].some(w => lower.includes(w))) {
+        state = "모든 것을 내려놓고 깊은 쉼이 필요한 지친 상태";
+        pick(["월든", "불편한 편의점", "고요할수록 밝아지는 것들"]);
+      } else if (["화", "다퉈", "싸움", "짜증", "분노"].some(w => lower.includes(w))) {
+        state = "마음속 격한 파도가 가라앉기를 바라는 상태";
+        pick(["화", "비폭력 대화", "아몬드"]);
+      } else if (["행복", "편안", "좋", "설레"].some(w => lower.includes(w))) {
+        state = "지금 이 순간의 따스함과 평온을 오래 간직하고 싶은 상태";
+        pick(["어린 왕자", "행복의 기원", "여행의 이유"]);
+      }
+      return {
+        state, confidence: 0.85, evidence: text.slice(0, 30),
+        books: selected.map((b, i) => ({
+          time: cfg.timeSlots[i % cfg.timeSlots.length] || `추천 ${i + 1}`,
+          title: b.title, author: b.author, genre: b.genre,
+          reason: `'${b.title}'을(를) 통해 적어주신 "${text.slice(0, 20)}" 마음에 깊은 공감과 따뜻한 쉼표를 전해드립니다.`
+        }))
+      };
+    }
+
+    // ================= Network calls (browser-direct) =================
+    class ApiError extends Error {
+      constructor(code, message, status) { super(message); this.code = code; this.status = status; }
+    }
+
+    async function callGemini(prompt, apiKey) {
+      const models = [...new Set([config.geminiModel || "gemini-3.8-flash", "gemini-flash-latest", "gemini-3.1-flash-lite"])];
+      let lastErr = null;
+      for (const model of models) {
+        for (let attempt = 1; attempt <= 2; attempt++) {
+          const generationConfig = { responseMimeType: "application/json" };
+          if (/3\.8|gemini-4/.test(model)) generationConfig.thinkingConfig = { thinkingLevel: config.thinkingLevel || "LOW" };
+          let res;
+          try {
+            res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig })
+            });
+          } catch (e) { throw new ApiError("NETWORK", "네트워크 연결 상태를 확인해 주세요.", 0); }
+          if (res.ok) {
+            const data = await res.json();
+            const text = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("");
+            return { text, model };
+          }
+          const body = await res.text();
+          lastErr = body;
+          if (res.status === 400 || res.status === 401 || res.status === 403) {
+            const isKey = /API_KEY|API key/i.test(body);
+            throw new ApiError(isKey || res.status === 400 ? "GEMINI_KEY" : "GEMINI_PERMISSION",
+              res.status === 403 ? "Gemini API 권한 오류(403): 키에 Generative Language API 사용 권한이 있는지 확인해 주세요." : "Gemini API 키 인증 권한이 없습니다. aistudio.google.com/app/apikey 에서 발급받은 키를 입력하거나 Claude API 키를 사용해 주세요.", res.status);
+          }
+          if (res.status === 503 || res.status === 429) {
+            if (attempt === 1) { await sleep(700); continue; }
+            break; // try next model
+          }
+          throw new ApiError("GEMINI_CALL_FAILED", `Gemini 분석 오류 (${res.status}): ${body.slice(0, 120)}`, res.status);
+        }
+      }
+      if (lastErr && /503|high demand|429|RESOURCE_EXHAUSTED/i.test(lastErr)) {
+        throw new ApiError("GEMINI_HIGH_DEMAND", "현재 Google Gemini 서버에 일시적인 트래픽 집중(503)이 발생했습니다. 몇 초 후 다시 시도해 주세요.", 503);
+      }
+      throw new ApiError("GEMINI_CALL_FAILED", "Gemini 호출에 실패했습니다.", 500);
+    }
+
+    async function callClaude(prompt, apiKey) {
+      const model = config.claudeModel || "claude-3-5-haiku-20241022";
+      let res;
+      try {
+        res = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": apiKey,
+            "anthropic-version": "2023-06-01",
+            "anthropic-dangerous-direct-browser-access": "true"
+          },
+          body: JSON.stringify({
+            model, max_tokens: 1200,
+            system: buildSystemPrompt(),
+            messages: [{ role: "user", content: `사용자 입력: "${prompt}"\n규칙에 따라 JSON으로만 응답해 주세요.` }]
+          })
+        });
+      } catch (e) { throw new ApiError("NETWORK", "네트워크 연결 상태를 확인해 주세요.", 0); }
+      if (!res.ok) {
+        const raw = await res.text();
+        let msg = raw; try { msg = JSON.parse(raw)?.error?.message || raw; } catch {}
+        if (res.status === 401) throw new ApiError("CLAUDE_AUTH", "입력하신 Claude API 키가 올바르지 않습니다. 키 값을 확인해 주세요.", 401);
+        if (/credit balance|balance is too low/i.test(msg)) throw new ApiError("CLAUDE_NO_CREDIT", "Claude 계정에 크레딧 잔액이 없습니다. Anthropic 콘솔(Plans & Billing)에서 크레딧을 충전해 주세요.", res.status);
+        throw new ApiError("CLAUDE_API", `Claude API 오류 (${res.status}): ${String(msg).slice(0, 150)}`, res.status);
+      }
+      const data = await res.json();
+      const text = (data.content || []).filter(b => b.type === "text").map(b => b.text).join("");
+      return { text, model };
+    }
+
+    function extractJson(raw) {
+      const clean = raw.replace(/```json|```/g, "").trim();
+      const s = clean.indexOf("{"), e = clean.lastIndexOf("}");
+      if (s < 0 || e < 0) throw new ApiError("PARSE", "추천 결과를 해석하지 못했습니다. 다시 시도해 주세요.");
+      return JSON.parse(clean.slice(s, e + 1));
+    }
+
+    async function recommendRemote(text, prov) {
+      const apiKey = (keys[prov] || "").trim();
+      if (!apiKey) throw new ApiError(prov === "claude" ? "NO_CLAUDE_KEY" : "NO_GEMINI_KEY", "API 키를 입력해 주세요.");
+      if (prov === "claude") {
+        const r = await callClaude(text, apiKey);
+        return { data: extractJson(r.text), provider: "claude" };
+      }
+      const prompt = `${buildSystemPrompt()}\n\n사용자 입력: "${text}"`;
+      const r = await callGemini(prompt, apiKey);
+      return { data: extractJson(r.text), provider: "gemini" };
+    }
+
+    async function testKey(prov) {
+      const apiKey = (keys[prov] || "").trim();
+      if (prov === "claude") {
+        const res = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "x-api-key": apiKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
+          body: JSON.stringify({ model: config.claudeModel, max_tokens: 10, messages: [{ role: "user", content: "ping" }] })
+        });
+        if (res.ok) return { ok: true, message: "Claude API 키가 정상적으로 확인되었습니다! 추천 기능을 바로 사용하실 수 있습니다." };
+        const raw = await res.text();
+        if (res.status === 401) return { ok: false, message: "인증 실패 (401): 유효하지 않은 Claude API 키입니다. 키를 다시 발급받거나 정확히 복사했는지 확인해 주세요." };
+        if (/credit balance|balance is too low|billing/i.test(raw)) return { ok: false, message: "크레딧 부족: Anthropic 계정에 충전된 크레딧(잔액)이 없습니다. 콘솔(Plans & Billing)에서 최소 $5 충전이 필요합니다." };
+        let msg = raw; try { msg = JSON.parse(raw)?.error?.message || raw; } catch {}
+        return { ok: false, message: `Anthropic API 오류: ${msg}` };
+      }
+      try {
+        const r = await callGemini("ping", apiKey);
+        return { ok: true, message: `Gemini API 키가 정상적으로 확인되었습니다! (사용 모델: ${r.model})` };
+      } catch (e) {
+        if (e.code === "GEMINI_HIGH_DEMAND") return { ok: true, message: "Gemini 키는 유효하나, 현재 Google 서버 일시적 트래픽 집중(503) 상태입니다. 잠시 후 추천을 시도해 주세요." };
+        return { ok: false, message: e.message || "Gemini 연결 테스트 실패" };
+      }
+    }
+
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+    // ================= Views =================
+    const VIEWS = ["viewInput", "viewLoading", "viewResult", "viewError"];
+    function showView(id) {
+      VIEWS.forEach(v => { $(v).hidden = v !== id; });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function hasKeyFor(prov) {
+      if (prov === "sample") return true;
+      return Boolean((keys[prov] || "").trim());
+    }
+
+    function renderTopState() {
+      const ok = hasKeyFor(provider);
+      $("settingsDot").hidden = ok;
+      $("settingsBtn").classList.toggle("warn", !ok);
+      $("keyBanner").hidden = ok || !$("settings").hidden;
+      $("personaName").textContent = config.personaTone;
+      $("bookCount").textContent = `(${enabledBooks().length}권)`;
+    }
+
+    function renderSettings() {
+      document.querySelectorAll(".tab").forEach(t => {
+        const on = t.dataset.provider === provider;
+        t.classList.toggle("on", on);
+        t.setAttribute("aria-selected", String(on));
+      });
+      const isSample = provider === "sample";
+      $("panelKey").hidden = isSample;
+      $("panelSample").hidden = !isSample;
+      if (!isSample) {
+        const m = KEY_META[provider];
+        $("keyLabel").textContent = m.label;
+        $("keyLink").href = m.link;
+        $("keyLink").textContent = m.linkText + " ↗";
+        $("keyInput").placeholder = m.placeholder;
+        $("keyInput").value = keys[provider] || "";
+        $("claudeTips").hidden = provider !== "claude";
+        $("geminiTips").hidden = provider !== "gemini";
+      }
+      $("testResult").hidden = true;
+      $("testBtn").disabled = isSample || !(keys[provider] || "").trim();
+      $("clearKeyBtn").hidden = isSample || !keys[provider];
+    }
+
+    function openSettings() { $("settings").hidden = false; renderSettings(); renderTopState(); }
+    function closeSettings() { $("settings").hidden = true; renderTopState(); }
+
+    function saveSettings(prov) {
+      if (prov) provider = prov;
+      store.set(KEYS.claude, (keys.claude || "").trim());
+      store.set(KEYS.gemini, (keys.gemini || "").trim());
+      store.set(KEYS.provider, provider);
+      const t = $("savedToast");
+      t.hidden = false;
+      clearTimeout(saveSettings._t);
+      saveSettings._t = setTimeout(() => { t.hidden = true; }, 2500);
+      renderSettings(); renderTopState();
+    }
+
+    // ================= Recommendation flow =================
+    function renderChips() {
+      const wrap = $("chips");
+      wrap.innerHTML = "";
+      DEFAULT_CHIPS.forEach(c => {
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "chip"; b.textContent = c;
+        b.addEventListener("click", () => { $("moodInput").value = c; onMoodInput(); $("moodInput").focus(); });
+        wrap.appendChild(b);
+      });
+    }
+
+    function onMoodInput() {
+      moodText = $("moodInput").value;
+      const len = moodText.length;
+      const counter = $("charCount");
+      counter.textContent = `${len} / 300`;
+      counter.className = len >= 280 ? "warn" : "";
+      $("recommendBtn").disabled = !moodText.trim();
+    }
+
+    async function recommend(text, forceSample = false) {
+      text = (text ?? moodText).trim();
+      if (!text) return;
+      const isSample = forceSample || provider === "sample";
+      if (!isSample && !hasKeyFor(provider)) { openSettings(); return; }
+
+      lastText = text;
+      result = null;
+      setFeedback(null);
+      showView("viewLoading");
+      renderLoadingSteps(0);
+      $("loadingHint").textContent = isSample ? "도서 카탈로그에서 맞춤 추천을 찾고 있습니다..."
+        : provider === "claude" ? "Claude AI가 마음을 세심하게 살피고 있습니다..."
+        : "Gemini AI가 가장 알맞은 도서를 선별 중입니다...";
+
+      let idx = 0;
+      clearInterval(stepTimer);
+      stepTimer = setInterval(() => { idx = Math.min(idx + 1, LOADING_STEPS.length - 1); renderLoadingSteps(idx); }, 1200);
+
+      try {
+        let out;
+        if (isSample) {
+          out = { data: fallbackRecommendation(text), provider: "sample" };
+          await sleep(900);
+        } else {
+          out = await recommendRemote(text, provider);
+        }
+        clearInterval(stepTimer);
+        result = { ...out.data, provider: out.provider };
+        renderResult();
+        showView("viewResult");
+      } catch (e) {
+        clearInterval(stepTimer);
+        const code = e.code || "";
+        $("errorMsg").textContent = e.message || "추천을 불러오는 중 오류가 발생했습니다.";
+        showView("viewError");
+        if (["NO_CLAUDE_KEY", "NO_GEMINI_KEY", "CLAUDE_AUTH", "GEMINI_KEY"].includes(code)) openSettings();
+      }
+    }
+
+    function renderLoadingSteps(active) {
+      const ul = $("steps");
+      ul.innerHTML = "";
+      LOADING_STEPS.forEach((s, i) => {
+        const li = document.createElement("li");
+        li.className = i === active ? "cur" : i < active ? "done" : "";
+        li.innerHTML = `<span class="d"></span><span></span>`;
+        li.lastChild.textContent = s;
+        ul.appendChild(li);
+      });
+    }
+
+    function renderResult() {
+      const r = result;
+      const badge = { claude: "Claude 큐레이션", gemini: "Gemini 큐레이션", sample: "샘플 큐레이션" }[r.provider] || "";
+      $("providerBadge").textContent = badge;
+      $("providerBadge").hidden = !badge;
+      $("moodState").textContent = r.state || "";
+      $("lowConf").hidden = !(typeof r.confidence === "number" && r.confidence < 0.5);
+      $("quote").textContent = `"${lastText}"`;
+      $("quote").hidden = !lastText;
+      const list = $("books");
+      list.innerHTML = "";
+      (r.books || []).forEach((b, i) => {
+        const art = document.createElement("article");
+        art.className = "book";
+        art.innerHTML = `
+          <div class="cover ${COVER_CLASSES[i % COVER_CLASSES.length]}">
+            <span class="b">BOOK</span>
+            <span class="t"></span>
+            <span class="a"></span>
+          </div>
+          <div class="book-body">
+            <div>
+              <div class="tags"><span class="time"></span>${b.genre ? '<span class="genre"></span>' : ""}</div>
+              <h4></h4>
+              <p class="au"></p>
+            </div>
+            <p class="reason"></p>
+          </div>`;
+        art.querySelector(".t").textContent = (b.title || "?").charAt(0);
+        art.querySelector(".a").textContent = (b.author || "").slice(0, 4);
+        art.querySelector(".time").textContent = b.time || "";
+        const g = art.querySelector(".genre"); if (g) g.textContent = b.genre;
+        art.querySelector("h4").textContent = b.title || "";
+        art.querySelector(".au").textContent = b.author || "";
+        art.querySelector(".reason").textContent = b.reason || "";
+        list.appendChild(art);
+      });
+    }
+
+    function setFeedback(v) {
+      $("fbYes").classList.toggle("on", v === "yes");
+      $("fbNo").classList.toggle("on", v === "no");
+    }
+
+    async function copyResult() {
+      if (!result) return;
+      const summary = `[마음 독서] 오늘의 마음에 맞는 책 추천
+
+내 마음: "${lastText}"
+마음 분석: ${result.state}
+
+추천 도서:
+${(result.books || []).map((b, i) => `${i + 1}. [${b.time}] ${b.title} (${b.author})\n- ${b.reason}`).join("\n\n")}`;
+      try { await navigator.clipboard.writeText(summary); } catch {}
+      const btn = $("copyBtn");
+      btn.textContent = "✓ 복사 완료!";
+      setTimeout(() => { btn.textContent = "📋 결과 복사하기"; }, 2000);
+    }
+
+    // ================= Admin studio =================
+    function openPin() { $("pinError").textContent = ""; $("pinInput").value = ""; $("pinModal").hidden = false; setTimeout(() => $("pinInput").focus(), 0); }
+    function closePin() { $("pinModal").hidden = true; }
+    function currentPin() { return store.get(KEYS.pin, ADMIN_PIN_DEFAULT); }
+
+    function submitPin() {
+      if ($("pinInput").value.trim() === currentPin()) {
+        closePin();
+        adminUnlocked = true;
+        openStudio();
+      } else {
+        $("pinError").textContent = "PIN이 올바르지 않습니다.";
+        $("pinInput").select();
+      }
+    }
+
+    function openStudio() {
+      draftCatalog = JSON.parse(JSON.stringify(config.catalog));
+      draftPresetId = null;
+      renderPresets();
+      $("sysPrompt").value = config.systemPrompt;
+      $("personaTone").value = config.personaTone;
+      $("timeSlots").value = config.timeSlots.join(", ");
+      $("recCount").value = config.recommendationCount;
+      $("reasonSent").value = config.reasonMaxSentences;
+      $("thinking").value = config.thinkingLevel;
+      $("geminiModel").value = config.geminiModel;
+      $("claudeModel").value = config.claudeModel;
+      $("curPin").value = ""; $("newPin").value = "";
+      $("studioMsg").textContent = "";
+      renderCatalog();
+      updatePreview();
+      $("studio").hidden = false;
+    }
+    function closeStudio() { $("studio").hidden = true; }
+
+    function renderPresets() {
+      const wrap = $("presetList");
+      wrap.innerHTML = "";
+      PRESETS.forEach(p => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "preset" + (p.name === $("personaTone").value || p.id === draftPresetId ? " on" : "");
+        b.innerHTML = `<b></b><span></span>`;
+        b.querySelector("b").textContent = p.name;
+        b.querySelector("span").textContent = p.tagline;
+        b.addEventListener("click", () => {
+          draftPresetId = p.id;
+          $("sysPrompt").value = p.prompt;
+          $("personaTone").value = p.name;
+          renderPresets(); updatePreview();
+        });
+        wrap.appendChild(b);
+      });
+    }
+
+    function renderCatalog() {
+      const wrap = $("catalog");
+      wrap.innerHTML = "";
+      draftCatalog.forEach((book, i) => {
+        const lab = document.createElement("label");
+        if (!book.enabled) lab.classList.add("cat-off");
+        const cb = document.createElement("input");
+        cb.type = "checkbox"; cb.checked = book.enabled;
+        cb.addEventListener("change", () => { draftCatalog[i].enabled = cb.checked; renderCatalog(); updatePreview(); });
+        const span = document.createElement("span");
+        span.textContent = `${book.title} · ${book.author}`;
+        const small = document.createElement("small");
+        small.textContent = `${book.genre} — ${book.desc}`;
+        span.appendChild(small);
+        lab.append(cb, span);
+        wrap.appendChild(lab);
+      });
+    }
+
+    function collectDraft() {
+      const slots = $("timeSlots").value.split(",").map(s => s.trim()).filter(Boolean);
+      return {
+        systemPrompt: $("sysPrompt").value,
+        personaTone: $("personaTone").value.trim() || DEFAULT_CONFIG.personaTone,
+        recommendationCount: clampInt($("recCount").value, 1, 5, 3),
+        timeSlots: slots.length ? slots : DEFAULT_CONFIG.timeSlots.slice(),
+        reasonMaxSentences: clampInt($("reasonSent").value, 1, 5, 2),
+        includeEvidence: true,
+        thinkingLevel: $("thinking").value,
+        geminiModel: $("geminiModel").value.trim() || DEFAULT_CONFIG.geminiModel,
+        claudeModel: $("claudeModel").value.trim() || DEFAULT_CONFIG.claudeModel,
+        catalog: draftCatalog
+      };
+    }
+    function clampInt(v, lo, hi, fb) { const n = parseInt(v, 10); return Number.isFinite(n) ? Math.min(hi, Math.max(lo, n)) : fb; }
+
+    function updatePreview() {
+      $("compiled").textContent = buildSystemPrompt(collectDraft());
+    }
+
+    function saveStudio() {
+      const curPin = currentPin();
+      const newPin = $("newPin").value.trim();
+      if (newPin) {
+        if ($("curPin").value.trim() !== curPin) { $("studioMsg").style.color = "var(--danger)"; $("studioMsg").textContent = "현재 PIN이 일치하지 않아 PIN은 변경되지 않았습니다."; return; }
+        if (!/^\d{4}$/.test(newPin)) { $("studioMsg").style.color = "var(--danger)"; $("studioMsg").textContent = "PIN은 숫자 4자리여야 합니다."; return; }
+        store.set(KEYS.pin, newPin);
+      }
+      config = collectDraft();
+      saveConfig();
+      renderTopState();
+      $("studioMsg").style.color = "var(--ok)";
+      $("studioMsg").textContent = "✓ 저장되었습니다. 다음 추천부터 반영됩니다.";
+      updatePreview();
+    }
+
+    function resetStudio() {
+      if (!confirm("모든 프롬프트와 카탈로그를 기본값으로 되돌릴까요?")) return;
+      config = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+      saveConfig();
+      openStudio();
+      renderTopState();
+      $("studioMsg").style.color = "var(--ok)";
+      $("studioMsg").textContent = "기본값으로 초기화되었습니다.";
+    }
+
+    // ================= Event wiring =================
+    $("moodInput").addEventListener("input", onMoodInput);
+    $("recommendBtn").addEventListener("click", () => recommend());
+    $("retryBtn").addEventListener("click", () => recommend(lastText));
+    $("rewriteBtn").addEventListener("click", () => { $("moodInput").value = ""; onMoodInput(); showView("viewInput"); });
+    $("copyBtn").addEventListener("click", copyResult);
+    $("fbYes").addEventListener("click", () => setFeedback("yes"));
+    $("fbNo").addEventListener("click", () => setFeedback("no"));
+    $("errKeyBtn").addEventListener("click", openSettings);
+    $("errSampleBtn").addEventListener("click", () => recommend(lastText, true));
+    $("errBackBtn").addEventListener("click", () => showView("viewInput"));
+
+    $("settingsBtn").addEventListener("click", () => ($("settings").hidden ? openSettings() : closeSettings()));
+    $("settingsClose").addEventListener("click", closeSettings);
+    $("settingsCancel").addEventListener("click", closeSettings);
+    $("bannerKeyBtn").addEventListener("click", openSettings);
+    $("bannerSampleBtn").addEventListener("click", () => { provider = "sample"; saveSettings(); });
+    $("sampleStartBtn").addEventListener("click", () => { provider = "sample"; saveSettings(); closeSettings(); });
+    $("applyBtn").addEventListener("click", () => saveSettings());
+
+    document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+      provider = t.dataset.provider;
+      renderSettings();
+    }));
+    $("keyInput").addEventListener("input", (e) => {
+      if (provider === "sample") return;
+      keys[provider] = e.target.value;
+      $("testResult").hidden = true;
+      $("testBtn").disabled = !e.target.value.trim();
+      $("clearKeyBtn").hidden = !e.target.value;
+      store.set(provider === "claude" ? KEYS.claude : KEYS.gemini, e.target.value.trim());
+    });
+    $("clearKeyBtn").addEventListener("click", () => {
+      keys[provider] = "";
+      store.del(provider === "claude" ? KEYS.claude : KEYS.gemini);
+      renderSettings(); renderTopState();
+    });
+    $("testBtn").addEventListener("click", async () => {
+      const box = $("testResult");
+      const btn = $("testBtn");
+      btn.disabled = true; btn.textContent = "검사 중...";
+      const r = await testKey(provider);
+      btn.textContent = "연결 테스트"; btn.disabled = false;
+      box.hidden = false;
+      box.className = "note " + (r.ok ? "ok" : "bad");
+      box.innerHTML = `<span></span><div><p class="t"></p><p style="margin:0"></p></div>`;
+      box.querySelector("span").textContent = r.ok ? "✅" : "⚠";
+      box.querySelector(".t").textContent = r.ok ? "정상 연결됨" : "연결 실패 원인";
+      box.querySelector("p:last-child").textContent = r.message;
+    });
+
+    $("adminBtn").addEventListener("click", () => (adminUnlocked ? openStudio() : openPin()));
+    $("personaBtn").addEventListener("click", () => (adminUnlocked ? openStudio() : openPin()));
+    $("pinCancel").addEventListener("click", closePin);
+    $("pinSubmit").addEventListener("click", submitPin);
+    $("pinInput").addEventListener("keydown", (e) => { if (e.key === "Enter") submitPin(); });
+    $("pinModal").addEventListener("click", (e) => { if (e.target === $("pinModal")) closePin(); });
+
+    $("studioClose").addEventListener("click", closeStudio);
+    $("studioSave").addEventListener("click", saveStudio);
+    $("studioReset").addEventListener("click", resetStudio);
+    $("studio").addEventListener("click", (e) => { if (e.target === $("studio")) closeStudio(); });
+    $("studio").addEventListener("input", updatePreview);
+    $("addBookBtn").addEventListener("click", () => {
+      const title = $("newTitle").value.trim();
+      if (!title) return;
+      draftCatalog.push({ id: "b" + Date.now(), title, author: $("newAuthor").value.trim() || "미상", genre: $("newGenre").value.trim() || "기타", desc: $("newDesc").value.trim() || title, enabled: true });
+      ["newTitle", "newAuthor", "newGenre", "newDesc"].forEach(id => { $(id).value = ""; });
+      renderCatalog(); updatePreview();
+    });
+    $("ptRun").addEventListener("click", () => {
+      const t = $("ptInput").value.trim();
+      if (!t) { $("ptOut").textContent = "문장을 입력해 주세요."; return; }
+      const r = fallbackRecommendation(t, collectDraft());
+      $("ptOut").textContent = `마음 상태: ${r.state}\n\n` + r.books.map((b, i) => `${i + 1}. [${b.time}] ${b.title} — ${b.reason}`).join("\n");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") { closePin(); closeStudio(); }
+    });
+
+    // ================= Init =================
+    renderChips();
+    renderSettings();
+    renderTopState();
+    onMoodInput();
+    if (!hasKeyFor(provider) && !keys.claude && !keys.gemini) openSettings();
+    else if (!$("settings").hidden) renderSettings();
+  })();
+  </script>
+</body>
+</html>
