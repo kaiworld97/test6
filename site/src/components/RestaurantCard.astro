@@ -1,0 +1,84 @@
+---
+import { priceLabel, routeUrl, type MenuSnapshot, type Restaurant } from '../../../shared/menu';
+
+interface Props {
+  restaurant: Restaurant;
+  menu: MenuSnapshot;
+  day: string;
+  archived?: boolean;
+  closed?: boolean;
+}
+
+const { restaurant, menu, day, archived = false, closed = false } = Astro.props;
+const { id, name, place, walkMin, lastLeg, color, corners, mapTarget } = restaurant;
+const isDaily = id === 'gyejeol';
+const meals = menu.daily.filter(row => row.restaurant === id && row.date === day);
+const fixed = menu.fixed.filter(row => row.restaurant === id).sort((a, b) => a.price - b.price);
+const tabs = isDaily ? meals.map(row => ({ label: row.meal, meal: row, items: [] }))
+  : (corners.length ? corners : ['상시 메뉴']).map(label => ({
+      label, meal: undefined, items: fixed.filter(row => row.corner === (corners.length ? label : null))
+    }));
+---
+<article class="restaurant-card" style={`--restaurant: ${color}`} aria-labelledby={`heading-${id}`} data-restaurant={id}>
+  <header class="restaurant-header">
+    <div>
+      <div class="restaurant-meta">{place}</div>
+      <h3 id={`heading-${id}`}>{name}</h3>
+    </div>
+    <span class="walk-time">도보 {walkMin}분</span>
+  </header>
+  {isDaily && (
+    <p class="menu-empty" data-daily-closed hidden={meals.length > 0 && !closed}>
+      {archived ? '이날 게시된 식단이 없어요.' : '오늘은 운영하지 않아요.'}
+    </p>
+  )}
+  <div class="menu-content" data-daily-content={isDaily ? '' : undefined} hidden={isDaily && closed}>
+    {tabs.length > 1 && (
+      <div class="tabs" role="tablist" aria-label={isDaily ? '식사 시간' : '식당 코너'}>
+        {tabs.map(({ label }, index) => (
+          <button type="button" role="tab" id={`${id}-tab-${index}`} aria-selected={index === 0}
+            aria-controls={`${id}-panel-${index}`} tabindex={index === 0 ? 0 : -1}>{label}</button>
+        ))}
+      </div>
+    )}
+    {id === 'jingwan' && fixed.length > 0 && (
+      <p class="price-range">{priceLabel(fixed[0].price)} ~ {priceLabel(fixed.at(-1)!.price)}</p>
+    )}
+    {tabs.map(({ label, meal, items }, index) => (
+      <div id={`${id}-panel-${index}`} role={tabs.length > 1 ? 'tabpanel' : undefined}
+        aria-labelledby={tabs.length > 1 ? `${id}-tab-${index}` : undefined} hidden={index > 0}>
+        {meal ? (
+          <>
+            <div class="meal-title">
+              <strong>{label} 정식</strong>
+              <span>{priceLabel(meal.price)}</span>
+            </div>
+            <p class="meal-items">{meal.items.join(' · ')}</p>
+          </>
+        ) : (
+          <>
+            <ul class="item-list">
+              {items.slice(0, 5).map(row => <li><span>{row.name}</span><strong>{priceLabel(row.price)}</strong></li>)}
+            </ul>
+            {items.length > 5 && (
+              <details class="all-menu">
+                <summary>
+                  <span class="expand-label">전체 보기 <span class="menu-count">{items.length}개</span></span>
+                  <span class="collapse-label">접기</span>
+                </summary>
+                <ul class="item-list">
+                  {items.slice(5).map(row => <li><span>{row.name}</span><strong>{priceLabel(row.price)}</strong></li>)}
+                </ul>
+              </details>
+            )}
+          </>
+        )}
+      </div>
+    ))}
+  </div>
+  <footer class="restaurant-footer">
+    <p>{lastLeg}</p>
+    <a class="button secondary-button" href={routeUrl(mapTarget)} aria-label={`${name} 길안내`}
+      data-route={id}>길안내</a>
+  </footer>
+</article>

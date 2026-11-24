@@ -1,0 +1,14 @@
+---
+import type { MenuSnapshot } from '../../../shared/menu';
+interface Props { menu: MenuSnapshot; }
+const { menu } = Astro.props;
+---
+<footer class="page-footer">
+  <div>
+    <a class="source-link" href={menu.source} target="_blank" rel="noopener noreferrer">세종대학교 식당안내 원문</a>
+    <p>메뉴는 변동될 수 있음</p>
+  </div>
+  <button type="button" class="button helpful-button" data-helpful aria-pressed="false">
+    <span aria-hidden="true">♡</span> 도움됐어요
+  </button>
+</footer>

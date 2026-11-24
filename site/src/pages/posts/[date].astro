@@ -1,0 +1,45 @@
+---
+import { getCollection, render } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import RestaurantCard from '../../components/RestaurantCard.astro';
+import MenuFooter from '../../components/MenuFooter.astro';
+import { displayDate, type MenuSnapshot } from '../../../../shared/menu';
+
+export async function getStaticPaths() {
+  const snapshots = import.meta.glob<MenuSnapshot>('../../../../data/menu/????-??-??.json', {
+    eager: true, import: 'default'
+  });
+  const posts = (await getCollection('posts')).sort((a, b) => a.data.date.localeCompare(b.data.date));
+  return posts.map((entry, index) => {
+    const day = entry.data.date;
+    const menu = snapshots[`../../../../data/menu/${day}.json`];
+    if (!menu || menu.snapshotDate !== day) throw new Error(`식단 기록 데이터 누락 (${day})`);
+    return {
+      params: { date: day },
+      props: { entry, menu, previous: posts[index - 1]?.data.date, next: posts[index + 1]?.data.date }
+    };
+  });
+}
+
+const { entry, menu, previous, next } = Astro.props;
+const { title, date } = entry.data;
+const { Content } = await render(entry);
+---
+<Page title={title} description={`${date}에 수집한 세종대학교 캠퍼스 식당 메뉴 기록입니다.`}>
+  <div class="page-intro">
+    <time class="date-label" datetime={date}>{displayDate(date)}</time>
+    <h1>식단 기록<span class="heading-dot" aria-hidden="true">.</span></h1>
+    <p>해당 날짜에 게시된 메뉴와 가격이에요.</p>
+  </div>
+  <article class="post-content"><Content /></article>
+  <section class="restaurants" aria-labelledby="archive-restaurants">
+    <div class="section-heading"><h2 id="archive-restaurants">캠퍼스 식당 <span>3곳</span></h2></div>
+    {menu.restaurants.map(restaurant => <RestaurantCard restaurant={restaurant} menu={menu} day={date} archived />)}
+  </section>
+  <nav class="post-nav" aria-label="다른 날짜 식단">
+    {previous && <a class="button secondary-button" rel="prev" href={`/posts/${previous}/`}>이전 기록</a>}
+    <a class="button secondary-button" href="/">오늘 메뉴</a>
+    {next && <a class="button secondary-button" rel="next" href={`/posts/${next}/`}>다음 기록</a>}
+  </nav>
+  <MenuFooter menu={menu} />
+</Page>

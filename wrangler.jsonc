@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "sejong-campus-guide",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-11-24",
+  "upload_source_maps": true,
+  "assets": {
+    "directory": "./site/dist",
+    "binding": "ASSETS",
+    "html_handling": "force-trailing-slash",
+    "run_worker_first": ["/api/*"]
+  },
+  "durable_objects": {
+    "bindings": [
+      { "name": "CHAT_QUOTA", "class_name": "ChatQuota" },
+      { "name": "MENU_TAGS", "class_name": "MenuTags" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["ChatQuota"] },
+    { "tag": "v2", "new_sqlite_classes": ["MenuTags"] }
+  ],
+  "vars": { "CLAUDE_MODEL": "claude-haiku-5-5", "CLAUDE_WORKSPACE_ID": "" },
+  "triggers": { "crons": ["10 22 * * 0-4", "10 2 * * 1-5"] },
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  }
+}

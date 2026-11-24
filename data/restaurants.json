@@ -1,0 +1,15 @@
+[
+  {
+    "id": "gyejeol", "name": "계절밥상", "place": "군자관 6층", "mapTarget": "gunja",
+    "walkMin": 5, "lastLeg": "군자관 엘리베이터로 6층", "color": "#f1a84e", "corners": []
+  },
+  {
+    "id": "sandeul", "name": "산들푸드", "place": "학생회관 B1", "mapTarget": "student",
+    "walkMin": 5, "lastLeg": "파리바게뜨 건물 지하 1층", "color": "#58c4ad",
+    "corners": ["나루또", "아지오", "김밥천국"]
+  },
+  {
+    "id": "jingwan", "name": "진관키친", "place": "진관홀 B1", "mapTarget": "jingwan",
+    "walkMin": 6, "lastLeg": "건물 안에서 지하 1층", "color": "#9ca9f7", "corners": []
+  }
+]

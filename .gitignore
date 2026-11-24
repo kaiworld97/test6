@@ -1,0 +1,13 @@
+node_modules/
+site/.astro/
+.astro/
+site/dist/
+.wrangler/
+.local/
+.dev.vars*
+.env*
+worker-configuration.d.ts
+__pycache__/
+.pytest_cache/
+playwright-report/
+test-results/

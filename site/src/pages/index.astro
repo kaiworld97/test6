@@ -1,0 +1,66 @@
+---
+import Page from '../layouts/Page.astro';
+import RestaurantCard from '../components/RestaurantCard.astro';
+import MenuFooter from '../components/MenuFooter.astro';
+import { displayDate, formatTime, kstDate, routeUrl, snapshot, weekend } from '../../../shared/menu';
+const today = kstDate();
+const day = snapshot.snapshotDate;
+const examples = ['7천 원 이하, 국물 있는 거', '매콤한 메뉴', '면 요리'];
+---
+<Page title="오늘의 메뉴" description="세종대학교 식당 세 곳의 메뉴를 비교하고 5번 출구부터 김원관 6층까지 3D 길안내를 확인하세요." home>
+  <div class="page-intro">
+    <time class="date-label" datetime={today} data-today>{displayDate(today)}</time>
+    <h1>오늘의 메뉴<span class="heading-dot" aria-hidden="true">.</span></h1>
+    <p>5번 출구부터 점심까지, 헤매지 말고 따라오세요.</p>
+  </div>
+
+  <section class="arrival" aria-labelledby="arrival-heading">
+    <div class="arrival-content">
+      <p class="arrival-label"><span class="location-dot" aria-hidden="true"></span>처음 오시나요?</p>
+      <h2 id="arrival-heading">5번 출구 <span aria-hidden="true">→</span> 김원관 6층</h2>
+      <p>어린이대공원역에서 PC 강의실까지</p>
+      <div class="arrival-actions">
+        <a class="button arrival-button" href={routeUrl('pc', 'exit')} data-route="classroom">3D 입실 길안내</a>
+        <a class="plain-link" href={`${routeUrl('pc', 'exit')}&view=2d`}>2D 지도</a>
+      </div>
+    </div>
+    <img class="arrival-map" src="/arrival-map.png" alt="" width="328" height="260" decoding="async" />
+  </section>
+
+  <section class="recommender" aria-labelledby="recommend-heading">
+    <div class="recommend-title">
+      <span class="spark" aria-hidden="true">✦</span>
+      <div><h2 id="recommend-heading">AI 메뉴 추천</h2><p>예산이나 먹고 싶은 메뉴를 알려주세요.</p></div>
+    </div>
+    <form class="recommend-form" data-recommend>
+      <label class="sr-only" for="question">추천받고 싶은 메뉴 조건</label>
+      <input id="question" name="q" maxlength="200" placeholder="예. 6천 원 이하, 국물" required />
+      <button class="button primary-button" type="submit">추천받기</button>
+    </form>
+    <div class="examples" aria-label="추천 조건 예시">
+      {examples.map(example => <button type="button" data-example={example}><span>{example}</span></button>)}
+    </div>
+    <div class="recommend-result" data-result aria-live="polite" aria-atomic="true"></div>
+    <noscript><p class="notice">AI 메뉴 추천은 자바스크립트를 켜면 이용할 수 있어요.</p></noscript>
+  </section>
+
+  <section class="restaurants" id="restaurants" aria-labelledby="restaurants-heading">
+    <div class="section-heading">
+      <div><h2 id="restaurants-heading">캠퍼스 식당 <span>3곳</span></h2><p>김원관 6층 로비에서 출발해요.</p></div>
+      <a class="plain-link" href={`/posts/${day}/`}>날짜별 기록</a>
+    </div>
+    <p class="notice" data-stale hidden={today === day}>
+      <strong>{displayDate(day)} 수집분</strong>을 표시하고 있어요.
+      <a href={snapshot.source} target="_blank" rel="noopener noreferrer">학교 원문 확인</a>
+    </p>
+    <p class="notice updated" data-updated hidden={today !== day}>오늘 {formatTime(snapshot.updatedAt)} 수집 · 한국시간</p>
+    {snapshot.restaurants.map(restaurant => (
+      <RestaurantCard restaurant={restaurant} menu={snapshot} day={day} closed={weekend(today)} />
+    ))}
+  </section>
+
+  <MenuFooter menu={snapshot} />
+</Page>
+<script>
+  import '../scripts/home';
+</script>
