@@ -21,7 +21,7 @@
     { "tag": "v2", "new_sqlite_classes": ["MenuTags"] }
   ],
   "vars": { "CLAUDE_MODEL": "claude-haiku-5-5", "CLAUDE_WORKSPACE_ID": "" },
-  "triggers": { "crons": ["10 22 * * 0-4", "10 2 * * 1-5"] },
+  "triggers": { "crons": ["10 22 * * SUN-THU", "10 2 * * MON-FRI"] },
   "observability": {
     "enabled": true,
     "logs": { "enabled": true },
