@@ -69,7 +69,9 @@ if (form && input && submit && result) {
     const actions = element('div', '', 'result-buttons');
     actions.append(route, next);
     result!.replaceChildren(label, title, price, reason);
-    if (row.fallback) result!.append(element('p', 'AI 추천을 불러오지 못했어요. 가격 조건으로 골랐어요.'));
+    if (row.fallback) {
+      result!.append(element('p', 'AI 추천을 불러오지 못했어요. 가격 조건으로 골랐어요.', 'fallback-note'));
+    }
     result!.append(actions);
   }
 

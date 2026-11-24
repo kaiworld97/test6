@@ -8,6 +8,7 @@ const screenshots = 'test-results/screenshots';
 
 test('모바일 홈에서 식당별 가격과 상시 메뉴를 비교한다', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ colorScheme: 'light' });
   await page.clock.setFixedTime(testTime);
   const requests: string[] = [];
   page.on('request', request => requests.push(request.url()));
@@ -17,6 +18,10 @@ test('모바일 홈에서 식당별 가격과 상시 메뉴를 비교한다', as
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
   expect(requests.some(url => url.endsWith('.glb') || url.includes('/map/blog-map.js'))).toBe(false);
   await page.screenshot({ path: `${screenshots}/home-mobile.png`, fullPage: true });
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(page.locator('html')).toHaveCSS('color-scheme', 'dark');
+  await page.screenshot({ path: `${screenshots}/home-mobile-dark.png` });
+  await page.emulateMedia({ colorScheme: 'light' });
   const sandeul = page.getByRole('article', { name: '산들푸드' });
   const agio = sandeul.getByRole('tab', { name: '아지오' });
   await sandeul.getByRole('tab', { name: '나루또' }).focus();
@@ -35,8 +40,13 @@ test('모바일 홈에서 식당별 가격과 상시 메뉴를 비교한다', as
 
 test('추천 결과에서 다른 메뉴를 요청하고 실제 길안내 링크로 이동한다', async ({ page }) => {
   await page.clock.setFixedTime(testTime);
+  await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto('/');
-  await page.screenshot({ path: `${screenshots}/home-desktop.png` });
+  const positions = await page.locator('.restaurant-grid article').evaluateAll(cards =>
+    cards.map(card => card.getBoundingClientRect().top)
+  );
+  expect(new Set(positions).size).toBe(1);
+  await page.screenshot({ path: `${screenshots}/home-desktop.png`, fullPage: true });
   let attempts = 0;
   await page.route('**/api/chat', async route => {
     const { q, exclude } = route.request().postDataJSON();

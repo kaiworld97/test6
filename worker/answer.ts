@@ -38,9 +38,12 @@ export async function answer(
       const matched = matchModelChoice(choice, candidates);
       if (matched) return { status: 200, body: matched };
       console.warn(JSON.stringify({ event: 'recommend_fallback', reason: 'invalid_choice' }));
-    } catch {
-      console.warn(JSON.stringify({ event: 'recommend_fallback', reason: 'provider_failure' }));
+    } catch (error) {
+      const reason = error instanceof Error && error.name === 'TimeoutError' ? 'provider_timeout' : 'provider_failure';
+      console.warn(JSON.stringify({ event: 'recommend_fallback', reason }));
     }
+  } else {
+    console.warn(JSON.stringify({ event: 'recommend_fallback', reason: 'secret_missing' }));
   }
   return { status: 200, body: fallbackRecommendation(candidates) };
 }

@@ -28,13 +28,15 @@ const { Content } = await render(entry);
 <Page title={title} description={`${date}에 수집한 세종대학교 캠퍼스 식당 메뉴 기록입니다.`}>
   <div class="page-intro">
     <time class="date-label" datetime={date}>{displayDate(date)}</time>
-    <h1>식단 기록<span class="heading-dot" aria-hidden="true">.</span></h1>
+    <h1>식단 기록</h1>
     <p>해당 날짜에 게시된 메뉴와 가격이에요.</p>
   </div>
   <article class="post-content"><Content /></article>
   <section class="restaurants" aria-labelledby="archive-restaurants">
     <div class="section-heading"><h2 id="archive-restaurants">캠퍼스 식당 <span>3곳</span></h2></div>
-    {menu.restaurants.map(restaurant => <RestaurantCard restaurant={restaurant} menu={menu} day={date} archived />)}
+    <div class="restaurant-grid">
+      {menu.restaurants.map(restaurant => <RestaurantCard restaurant={restaurant} menu={menu} day={date} archived />)}
+    </div>
   </section>
   <nav class="post-nav" aria-label="다른 날짜 식단">
     {previous && <a class="button secondary-button" rel="prev" href={`/posts/${previous}/`}>이전 기록</a>}

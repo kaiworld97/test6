@@ -1,3 +1,22 @@
+.blog-map-back, .blog-map-fallback {
+  --guide-surface: #fff;
+  --guide-text: #172d25;
+  --guide-line: #dbe4d9;
+  --guide-accent: #235e49;
+  color: var(--guide-text);
+  background: var(--guide-surface);
+  border: 1px solid var(--guide-line);
+}
+
+@media (prefers-color-scheme: dark) {
+  .blog-map-back, .blog-map-fallback {
+    --guide-surface: #192922;
+    --guide-text: #edf5ee;
+    --guide-line: #364d40;
+    --guide-accent: #aadbbb;
+  }
+}
+
 .blog-map-back {
   position: absolute;
   z-index: 5;
@@ -7,15 +26,12 @@
   display: inline-flex;
   align-items: center;
   padding: 0 12px;
-  color: #17392c;
-  background: #fffdf3;
-  border: 1px solid #d5e0d4;
-  border-radius: 9px;
+  border-radius: 10px;
   font-weight: 800;
   text-decoration: none;
 }
 .blog-map-back:focus-visible, .blog-map-fallback a:focus-visible {
-  outline: 3px solid #94500f;
+  outline: 3px solid var(--guide-accent);
   outline-offset: 3px;
 }
 body > header { top: 64px; }
@@ -28,10 +44,8 @@ body > header { top: 64px; }
   transform: translateX(-50%);
   width: min(92%, 560px);
   overflow: auto;
-  background: #fffdf3;
-  border: 1px solid #b3c7ba;
-  border-radius: 16px;
-  box-shadow: 0 16px 55px #162d2755;
+  border-radius: 18px;
+  box-shadow: 0 14px 38px #172d2530;
   padding: 20px;
 }
 .blog-map-fallback[hidden] { display: none; }
@@ -39,7 +53,7 @@ body > header { top: 64px; }
 .blog-map-fallback p { margin: 6px 0 10px; }
 .blog-map-fallback canvas { width: 100%; height: auto; background: #edf0e5; border-radius: 10px; }
 .blog-map-fallback ol { padding-left: 22px; line-height: 1.55; }
-.blog-map-fallback a { display: inline-flex; align-items: center; min-height: 44px; margin-right: 14px; color: #194b38; font-weight: 800; }
+.blog-map-fallback a { display: inline-flex; align-items: center; min-height: 44px; margin-right: 14px; color: var(--guide-accent); font-weight: 800; }
 body[data-flat-map] .blog-map-fallback { z-index: 7; bottom: auto; max-height: calc(100% - 86px); }
 body[data-flat-map] > :is(header, .nav, .atlas, .tools, .pad, .notice, .credits, #world) { display: none; }
 @media (max-width: 600px) {

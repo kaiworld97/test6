@@ -7,7 +7,8 @@ const { title, description, home = false } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#101b2e" />
+    <meta name="theme-color" content="#f5f7f2" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121e19" media="(prefers-color-scheme: dark)" />
     <meta name="description" content={description} />
     <title>{title} · 세종 캠퍼스 가이드</title>
     <script is:inline src="/analytics.js" defer></script>
@@ -16,11 +17,13 @@ const { title, description, home = false } = Astro.props;
     <a class="skip" href="#main">본문으로 이동</a>
     <header class="site-header">
       <div class="shell header-inner">
-        <a class="brand" href="/">
-          <span class="brand-icon" aria-hidden="true"><i></i></span>
+        <a class="brand" href="/" aria-label="세종 캠퍼스 가이드 홈">
+          <span class="brand-icon" aria-hidden="true"></span>
           <span>세종 캠퍼스 가이드</span>
         </a>
-        <a class="header-link" href={home ? '#restaurants' : '/'}>{home ? '식당 바로가기' : '오늘 메뉴'}</a>
+        <nav aria-label="캠퍼스 가이드">
+          <a class="header-link" href={home ? '#restaurants' : '/'}>{home ? '식당 바로가기' : '오늘 메뉴'}</a>
+        </nav>
       </div>
     </header>
     <main class="shell" id="main">
