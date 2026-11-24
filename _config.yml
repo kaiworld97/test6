@@ -1,0 +1,4 @@
+# The existing GitHub Pages site serves the repository root.
+exclude:
+  - site
+  - node_modules
