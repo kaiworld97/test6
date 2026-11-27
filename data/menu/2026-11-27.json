@@ -1,0 +1,1113 @@
+{
+  "updatedAt": "2026-11-27T03:42:36Z",
+  "snapshotDate": "2026-11-27",
+  "source": "https://www.sejong.ac.kr/kor/unilife/cafeteria-info.do",
+  "restaurants": [
+    {
+      "id": "gyejeol",
+      "name": "계절밥상",
+      "place": "군자관 6층",
+      "mapTarget": "gunja",
+      "walkMin": 5,
+      "lastLeg": "군자관 엘리베이터로 6층",
+      "color": "#f1a84e",
+      "corners": []
+    },
+    {
+      "id": "sandeul",
+      "name": "산들푸드",
+      "place": "학생회관 B1",
+      "mapTarget": "student",
+      "walkMin": 5,
+      "lastLeg": "파리바게뜨 건물 지하 1층",
+      "color": "#58c4ad",
+      "corners": [
+        "나루또",
+        "아지오",
+        "김밥천국"
+      ]
+    },
+    {
+      "id": "jingwan",
+      "name": "진관키친",
+      "place": "진관홀 B1",
+      "mapTarget": "jingwan",
+      "walkMin": 6,
+      "lastLeg": "건물 안에서 지하 1층",
+      "color": "#9ca9f7",
+      "corners": []
+    }
+  ],
+  "daily": [
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-20",
+      "meal": "중식",
+      "items": [
+        "근대된장국",
+        "김치제육볶음",
+        "온두부",
+        "야채춘권튀김",
+        "후랑크푸실리볶음",
+        "가지양념무침",
+        "시금치무침",
+        "콩자반",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-20",
+      "meal": "석식",
+      "items": [
+        "근대된장국",
+        "닭강정",
+        "꽈리고추메추리알조림",
+        "김구이",
+        "후랑크푸실리볶음",
+        "가지양념무침",
+        "시금치무침",
+        "콩자반",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-23",
+      "meal": "중식",
+      "items": [
+        "김치콩나물국",
+        "숯불바싹돈불고기",
+        "야채고로케",
+        "건파래자반볶음",
+        "감자채볶음",
+        "참나물무침",
+        "숙주당근무침",
+        "양념깻잎지",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-23",
+      "meal": "석식",
+      "items": [
+        "김치콩나물국",
+        "한입떡갈비",
+        "두부전&양념장",
+        "미니새송이볶음",
+        "감자채볶음",
+        "참나물무침",
+        "숙주당근무침",
+        "양념깻잎지",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-24",
+      "meal": "중식",
+      "items": [
+        "미역국",
+        "마파두부",
+        "치킨너겟&소스",
+        "오이참깨파스타",
+        "연근조림",
+        "표고버섯피망볶음",
+        "청경채나물",
+        "무말랭이",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-24",
+      "meal": "석식",
+      "items": [
+        "미역국",
+        "닭볶음탕",
+        "감자튀김",
+        "오이맛살마요네즈무침",
+        "연근조림",
+        "표고버섯피망볶음",
+        "청경채나물",
+        "무말랭이",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-25",
+      "meal": "중식",
+      "items": [
+        "시금치고추장국",
+        "제육볶음",
+        "수제김치전",
+        "참나물토마토샐러드",
+        "미역줄기맛살볶음",
+        "콩나물무침",
+        "얼갈이나물무침",
+        "고추지무침",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-25",
+      "meal": "석식",
+      "items": [
+        "시금치고추장국",
+        "깐풍기",
+        "물만두찜&양념장",
+        "가지양념무침",
+        "미역줄기맛살볶음",
+        "콩나물무침",
+        "얼갈이나물무침",
+        "고추지무침",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-26",
+      "meal": "중식",
+      "items": [
+        "북엇국",
+        "닭갈비",
+        "다시마쌈&초장",
+        "사모사튀김",
+        "양송이브로콜리볶음",
+        "쑥갓두부무침",
+        "시금치무침",
+        "마늘쫑지무침",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-26",
+      "meal": "석식",
+      "items": [
+        "북엇국",
+        "카레라이스",
+        "순살돈까스",
+        "치커리유자청무침",
+        "양송이브로콜리볶음",
+        "쑥갓두부무침",
+        "시금치무침",
+        "마늘쫑지무침",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-27",
+      "meal": "중식",
+      "items": [
+        "얼갈이된장국",
+        "돼지갈비찜",
+        "납작만두",
+        "비빔야채",
+        "느타리호박볶음",
+        "고사리볶음",
+        "취나물무침",
+        "콩자반",
+        "배추김치"
+      ],
+      "price": 7000
+    },
+    {
+      "restaurant": "gyejeol",
+      "date": "2026-11-27",
+      "meal": "석식",
+      "items": [
+        "얼갈이된장국",
+        "함박폭찹스테이크",
+        "단호박샐러드",
+        "브로콜리&초장",
+        "느타리호박볶음",
+        "고사리볶음",
+        "취나물무침",
+        "콩자반",
+        "배추김치"
+      ],
+      "price": 7000
+    }
+  ],
+  "fixed": [
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "군만두",
+      "price": 1800
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "떡갈비추가",
+      "price": 1800
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "새우튀김",
+      "price": 1800
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "피카츄",
+      "price": 2000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "소떡소떡",
+      "price": 3000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "라면",
+      "price": 3300
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "콜팝(얼음없음)",
+      "price": 3500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "떡라면",
+      "price": 3700
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "치즈라면",
+      "price": 3700
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "(유부)우동",
+      "price": 4000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "김치찌개라면",
+      "price": 4000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "부대찌개라면",
+      "price": 4300
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "해물라면",
+      "price": 4300
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "물냉면",
+      "price": 4500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "김치찌개",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "떡갈비마요비빔밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "비빔냉면",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "비빔밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "수제소세지밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "순두부찌개",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "순쫄찌개",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "쫄만두",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "참치마요비빔밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "치킨마요비빔밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "컵밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "떡만두국",
+      "price": 5300
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "새우알밥",
+      "price": 5300
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "김치나베",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "닭불고기덮밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "돼지불고기덮밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "떡갈비덮밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "매콤제육비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "불닭마요비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "소고기된장찌개",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "소고기비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "제육덮밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "치킨까스",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "회덮밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "설렁탕",
+      "price": 5800
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "함박스테이크",
+      "price": 5800
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "갈비탕",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "등심왕돈까스",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "뚝배기불고기",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "미트그라탕",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "미트스파게티",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "소불고기만두전골",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "크림그라탕",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "크림스파게티",
+      "price": 6000
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "고구마치즈돈까스",
+      "price": 6300
+    },
+    {
+      "restaurant": "jingwan",
+      "corner": null,
+      "name": "치즈돈까스",
+      "price": 6300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "※ 라면 치즈추가 ※",
+      "price": 500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "※ 치즈추가 ※",
+      "price": 500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "※ 셀프주먹밥 추가 ※ (세트)",
+      "price": 1500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "진라면(매운맛)",
+      "price": 2500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "진라면(순한맛)",
+      "price": 2500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "신라면",
+      "price": 3000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "틈새라면",
+      "price": 3300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "잔치국수",
+      "price": 3500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "참치마요 비빔밥",
+      "price": 3800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "김치말이국수",
+      "price": 4000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "물냉면",
+      "price": 4000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "참치 마그마요 비빔밥",
+      "price": 4000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "떡만두국",
+      "price": 4200
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "칼만두",
+      "price": 4300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "국물라볶이",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "비빔냉면",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "돈육 순두부찌개",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "로제떡볶이",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "스팸치즈 순두부찌개",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "육회비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "떡갈비+물냉면",
+      "price": 6000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "김밥천국",
+      "name": "떡갈비+비빔냉면",
+      "price": 6500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "김치우동",
+      "price": 2800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "어묵꼬치우동",
+      "price": 3500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "야채핫바 우동",
+      "price": 3700
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "냉모밀",
+      "price": 4000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "생선 까스",
+      "price": 4000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "가츠동",
+      "price": 4300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "들기름소바",
+      "price": 4300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "핫바 카레덮밥",
+      "price": 4300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "새우튀김 알밥",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "새우튀김우동",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "에비냉모밀",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "치킨까스",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "함박 카레덮밥",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "치즈 함박동",
+      "price": 4700
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돈까스 비빔모밀",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돈까스 카레덮밥",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "새우튀김 카레덮밥",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "치킨텐더 카레덮밥",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "고구마돈까스",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돈까스 우동정식",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돈까스 쟁반국수",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돼지고기 김치찌개",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "등심돈까스",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "에비동",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "우삼겹 된장찌개",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "참치 김치찌개",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "치킨 가라아게동",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "치킨치즈까스 카레덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "왕새우튀김 냉모밀",
+      "price": 5200
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "왕새우튀김우동",
+      "price": 5200
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돈까스 김치찌개",
+      "price": 5300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "돈까스 냉모밀정식",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "존슨치즈부대찌개",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "나루또",
+      "name": "들기름소바+떡갈비",
+      "price": 6300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "소떡소떡",
+      "price": 3000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "회오리감자",
+      "price": 3300
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "오므라이스",
+      "price": 3500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "닭강정",
+      "price": 3800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "소금구이덮밥",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "피카츄 오므라이스",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "함박 카레덮밥",
+      "price": 4500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "돈까스 카레덮밥",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "치킨텐더 카레덮밥",
+      "price": 4800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "간장돼지불고기덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "갈릭스팸볶음밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "그제덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "닭강정 오므라이스",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "돈까스 오므라이스",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "롱소세지 카레덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "마그마 볶네치킨덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "불닭덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "삼겹살김치볶음밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "스팸김치볶음밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "제육덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "쫑쫑덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "함박오므라이스",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "해쉬브라운 카레덮밥",
+      "price": 5000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "대패삼겹 비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "롱소세지 오므라이스",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "불닭비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "삼겹살강된장 비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "삼겹살볶음고추장비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "소금구이 비빔밥",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "치킨치즈까스 오므라이스",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "카오팟삼겹",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "해쉬브라운 오므라이스",
+      "price": 5500
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "떡갈비 오므라이스",
+      "price": 5800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "소떡소떡 오므라이스",
+      "price": 5800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "왕새우튀김 카레덮밥",
+      "price": 5800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "제육 비빔밥",
+      "price": 5800
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "간장돼불마요 비빔밥",
+      "price": 6000
+    },
+    {
+      "restaurant": "sandeul",
+      "corner": "아지오",
+      "name": "수육정식",
+      "price": 7500
+    }
+  ]
+}
